@@ -1,0 +1,71 @@
+# register route
+POST http://localhost:4040/api/user/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "aby.tech",
+    "password": "12345",
+    "email": "aby@gmail.com",
+    "name": "Aby Tech"
+}
+###
+
+# login route
+POST http://localhost:4040/api/user/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "password": "12345",
+    "email": "abytech@gmail.com"
+}
+###
+
+# profile route
+GET http://localhost:4040/api/user/profile HTTP/1.1
+Content-Type: application/json
+
+{
+    "token": "2d7ec7fb1be51cca9943406f65ad9e58765efd7f784bd0e53fabc38955dae43b"
+}
+###
+
+# editProfile route
+PUT http://localhost:4040/api/user/profile/edit HTTP/1.1
+Content-Type: application/json
+
+{
+    "token": "2d7ec7fb1be51cca9943406f65ad9e58765efd7f784bd0e53fabc38955dae43b",
+    "username": "Aby.Tech",
+    "bio": "Hi, I am a software developer and build lots of mini projects",
+    "postsCount": "0"
+}
+###
+
+# get user posts route
+GET http://localhost:4040/api/user/post HTTP/1.1
+Content-Type: application/json
+
+{
+    "token": "2d7ec7fb1be51cca9943406f65ad9e58765efd7f784bd0e53fabc38955dae43b"
+}
+###
+
+# sending/posting comment
+POST http://localhost:4040/api/user/post/6a49371bb9a29af52c2f0abf HTTP/1.1
+Content-Type: application/json
+
+{
+    "comment": "testing2 comment"
+}
+###
+
+# getting all comments of a post
+GET http://localhost:4040/api/user/post/6a53ae2f12c9aaef1c958ad0/comment HTTP/1.1
+Content-Type: application/json
+
+###
+
+
+
+
+
