@@ -30,7 +30,7 @@ export default function ExplorePage() {
   return (
     <div className="py-2 flex flex-col sm:items-center">
       {/* explore header */}
-      <header className="w-full flex sm:items-center flex-col gap-5 px-3 pt-2 pb-4 mb-2 border-b-2 border-neutral-300">
+      <header className="w-full flex sm:items-center flex-col gap-5 px-3 pt-2 pb-4 border-b-2 border-neutral-300">
         <div className="flex gap-3 items-center">
           <FaUniversity className="text-[28px] " />
           <h1 className="text-[16px] font-semibold">Explore</h1>
@@ -62,8 +62,7 @@ export default function ExplorePage() {
         itemContent={(index) => (
           <UserPost key={index} post={posts[index]} />
         )}
-        listClassName="columns-3 mx-auto sm:columns-5 gap-0.5"
-        itemClassName="break-inside-avoid mb-0.5"
+        listClassName="grid grid-cols-3 sm:grid-cols-5 gap-0.5 mt-2"
       />
     </div>
   );
