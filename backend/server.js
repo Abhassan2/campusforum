@@ -10,6 +10,7 @@ import postRouter from "./routes/post.routes.js";
 dotenv.config();
 const app = express();
 
+app.set("trust proxy", 1);
 app.use(cors({
   origin: "https://campusforum.vercel.app",
   credentials: true
