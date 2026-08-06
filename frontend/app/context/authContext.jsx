@@ -10,7 +10,7 @@ const AuthContext = createContext();
 const AuthContextProvider = ({ initialUser, children }) => {
   const router = useRouter();
   const [token, setToken] = useState(initialUser.token);
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(initialUser.currentUser);
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
 
