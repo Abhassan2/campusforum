@@ -23,6 +23,13 @@ app.use("/api/user", userRouter);
 app.use("/api/user/profile", profileRouter);
 app.use("/api/user/post", postRouter);
 
+app.get("/", (req, res)=>{
+  try {
+    res.json({success: true, message: "Welcome to campusforum-backend!"})
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 const start = async () => {
   await connectdb();

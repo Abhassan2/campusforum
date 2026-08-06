@@ -14,23 +14,6 @@ const AuthContextProvider = ({ initialUser, children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    if (!token) {
-      router.push("/login");
-    }
-  }, [token]);
-
-  useEffect(()=>{
-    if(pathname.includes("user")){
-      if(pathname.split("/")[2] === currentUser?.owner?.username){
-        router.push("/profile");
-      }
-    }
-    
-    // if(pathname !== "/" && pathname !== "login"){
-    //   setCurrentUser(fetchMe(token))
-    // }
-  }, [pathname]);
   
   const handleLogin = async (formData) => {
     try {
@@ -80,6 +63,23 @@ const AuthContextProvider = ({ initialUser, children }) => {
     router.push("/login");
   };
 
+  useEffect(() => {
+    if (!token) {
+      router.push("/login");
+    }
+  }, [token]);
+
+  useEffect(()=>{
+    if(pathname.includes("user")){
+      if(pathname.split("/")[2] === currentUser?.owner?.username){
+        router.push("/profile");
+      }
+    }
+    
+    // if(pathname !== "/" && pathname !== "login"){
+    //   setCurrentUser(fetchMe(token))
+    // }
+  }, [pathname]);
 
   const value = {
     handleLogin,
