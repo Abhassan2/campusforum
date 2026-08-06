@@ -11,6 +11,7 @@ export default async function ProfilePage() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   console.log("token: ", token);
+  console.log("cookieStore: ", cookieStore.getAll());
 
   if (!token) {
     return (
