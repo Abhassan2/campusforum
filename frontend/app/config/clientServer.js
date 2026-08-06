@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const clientServer = axios.create({
-    baseURL: "http://localhost:4040",
+    baseURL: "https://campusforum.onrender.com",
     withCredentials: true,
 });
 

@@ -53,8 +53,8 @@ function UserProfileUi({ userProfile, userPosts }) {
         <div className="flex-1 flex mt-2 px-1 gap-4 md:gap-5">
           <Image
             src={
-              userProfile.profilePic !== ""
-                ? userProfile.profilePic
+              userProfile?.profilePic
+                ? userProfile?.profilePic
                 : "/default_img.avif"
             }
             loading="eager"

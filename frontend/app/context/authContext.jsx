@@ -3,16 +3,17 @@ import { createContext, useContext, useEffect, useState } from "react";
 import clientServer from "../config/clientServer.js";
 import { toast } from "react-toastify";
 import { useRouter, usePathname } from "next/navigation";
+import { fetchMe } from "@/api/serverApi.js";
 
 const AuthContext = createContext();
 
 const AuthContextProvider = ({ initialUser, children }) => {
   const router = useRouter();
   const [token, setToken] = useState(initialUser.token);
-  const [currentUser, setCurrentUser] = useState(initialUser.currentUser);
+  const [currentUser, setCurrentUser] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
-  
+
   useEffect(() => {
     if (!token) {
       router.push("/login");
@@ -25,6 +26,10 @@ const AuthContextProvider = ({ initialUser, children }) => {
         router.push("/profile");
       }
     }
+    
+    // if(pathname !== "/" && pathname !== "login"){
+    //   setCurrentUser(fetchMe(token))
+    // }
   }, [pathname]);
   
   const handleLogin = async (formData) => {

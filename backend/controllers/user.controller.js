@@ -74,7 +74,7 @@ export const login = async (req, res) => {
     await userModel.updateOne({ _id: isUserExist._id }, { token });
     
     return res.cookie("token", token, {
-      httponly: true,
+      httpOnly: true,
       secure: true,
       sameSite: "lax",
       maxAge: 2*24*60*60*1000,
