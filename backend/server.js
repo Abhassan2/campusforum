@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: "campusforum.vercel.app",
+  origin: "https://campusforum.vercel.app/",
   credentials: true
 }));
 app.use(express.json());
