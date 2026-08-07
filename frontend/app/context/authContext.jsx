@@ -8,7 +8,12 @@ const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
   const router = useRouter();
-  const [token, setToken] = useState(()=> localStorage.getItem('token') || null);
+  const [token, setToken] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("token");
+    }
+    return null;
+  });
   const [currentUser, setCurrentUser] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
@@ -93,11 +98,17 @@ const AuthContextProvider = ({ children }) => {
   }, [pathname]);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setToken(storedToken);
-      fetchMe();
+    if (typeof window === "undefined") return;
+
+    const savedToken = localStorage.getItem("token");
+    if (savedToken) {
+      setToken(savedToken);
     }
+  }, [pathname]); 
+
+  useEffect(() => {
+    if (!token) return;
+    fetchMe();
   }, [token, pathname]);
   
   const value = {
