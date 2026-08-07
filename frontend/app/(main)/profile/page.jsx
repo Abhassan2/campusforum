@@ -10,7 +10,6 @@ const UserProfileUi = dynamic(() => import("@/ui/profile.jsx"), {
 export default async function ProfilePage() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-  console.log("token: ", token);
   console.log("cookieStore: ", cookieStore.getAll());
 
   if (!token) {
@@ -21,12 +20,12 @@ export default async function ProfilePage() {
     );
   }
 
-  const profile = {}
-  const userPosts = []
+  let profile = {}
+  let userPosts = []
   const data = await getProfile(token);
-  // const profile = data.profile
-  // const userPosts = data.userPosts
-  console.log("data: ", data);
+  // console.log("data: ", data);
+  profile = data.profile;
+  userPosts = data.userPosts;
 
   return (
     <>

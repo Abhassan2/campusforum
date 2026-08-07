@@ -27,7 +27,8 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-
+  console.log();
+  
   let currentUser = null;
   if(token){
     currentUser = await fetchMe(token);

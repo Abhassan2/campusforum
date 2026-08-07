@@ -12,7 +12,7 @@ const app = express();
 
 app.set("trust proxy", 1);
 app.use(cors({
-  origin: "https://campusforum.vercel.app",
+  origin: process.env.FRONTEND_URL,
   credentials: true
 }));
 app.use(express.json());
