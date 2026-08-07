@@ -20,7 +20,7 @@ const AuthContextProvider = ({ initialUser, children }) => {
       setIsLoading(true)
       const response = await clientServer.post("/api/user/login", formData);
 
-      if (response.data.token) {
+      if (response.data.success) {
         setIsLoading(false)
         localStorage.setItem("token", response.data.token);
         setToken(response.data.token);
