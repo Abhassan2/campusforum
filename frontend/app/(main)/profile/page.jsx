@@ -1,35 +1,26 @@
+"use client";
 import dynamic from "next/dynamic";
-import { cookies } from "next/headers";
 import ProfileSkeleton from "@/skeleton/profileSkeleton";
-import { getProfile } from "@/api/serverApi";
+import { useContext, useEffect } from "react";
+import { PostContext } from "@/app/context/postContext";
+const ProfileUi = dynamic(() => import("@/ui/profile.jsx"));
 
-const UserProfileUi = dynamic(() => import("@/ui/profile.jsx"), {
-  loading: () => <ProfileSkeleton />,
-});
+export default function ProfilePage() {
+  const { getProfile, profile, userPosts, isLoading } = useContext(PostContext);
+  
+  useEffect(()=>{
+    getProfile();
+  }, []);
 
-export default async function ProfilePage() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  console.log("cookieStore: ", cookieStore.getAll());
-
-  if (!token) {
+  if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p>No token found. Please login.</p>
-      </div>
+      <ProfileSkeleton />
     );
   }
-
-  let profile = {}
-  let userPosts = []
-  const data = await getProfile(token);
-  // console.log("data: ", data);
-  profile = data.profile;
-  userPosts = data.userPosts;
-
+  
   return (
     <>
-      <UserProfileUi userProfile={profile} userPosts={userPosts} />
+      <ProfileUi userProfile={profile} userPosts={userPosts} />
     </>
   );
 }

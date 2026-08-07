@@ -59,8 +59,8 @@ export default function ProfileSkeleton() {
         </div>
 
         {/* Posts grid skeleton */}
-        <div className="mt-5 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2">
-          {[...Array(10)].map((_, index) => (
+        <div className="mt-5 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-0.5">
+          {[...Array(3)].map((_, index) => (
             <div
               key={index}
               className="w-full aspect-square bg-gray-200 rounded"

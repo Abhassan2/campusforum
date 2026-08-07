@@ -22,6 +22,7 @@ const PostContextProvider = ({ children }) => {
 
   const [profile, setProfile] = useState({}); // stores users profile info
   const [posts, setPosts] = useState([]);
+  const [userPosts, setUserPosts] = useState([]);
   const [post, setPost] = useState([]);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
@@ -117,10 +118,52 @@ const PostContextProvider = ({ children }) => {
       if (response.data.success) {
         toast.success(response.data.message);
       } else {
+        console.log("delete post")
         toast.error(response.data.message);
       }
     } catch (error) {
+      console.log("delete post")
       toast.error(error.response?.data.message);
+    }
+  };
+
+  const homeFeed = async () => {
+    try {
+      setIsLoading(true)
+      const response = await clientServer.get("/api/user/post");
+
+      if (response.data.success) {
+        setIsLoading(false)
+        setPosts(response.data.posts);
+      } else {
+        setIsLoading(false)
+        console.error("In homeFeed error: ",response.data.message);
+      }
+    } catch (error) {
+      setIsLoading(false)
+      console.log("Error fetching all posts as homeFeed: ", error);
+    }
+  };
+
+  const getProfile = async () => {
+    try {
+      setIsLoading(true)
+      const response = await clientServer.get("/api/user/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.data.success) {
+        setIsLoading(false)
+        setProfile(response.data.profile);
+        setUserPosts(response.data.userPosts);
+      } else {
+        setIsLoading(false)
+        console.log(response.data.message);
+      }
+    } catch (error) {
+      setIsLoading(false)
+      console.log("Error fetching user profile: ", error);
     }
   };
 
@@ -258,6 +301,7 @@ const PostContextProvider = ({ children }) => {
 
   const getUsersProfile = async (username) => {
     try {
+      setIsLoading(true)
       const response = await clientServer.get(`/api/user/profile/${username}`);
 
       if (response.data.success) {
@@ -268,6 +312,8 @@ const PostContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -288,6 +334,9 @@ const PostContextProvider = ({ children }) => {
   };
 
   const value = {
+    homeFeed,
+    getProfile,
+
     router,
     currentUser,
     token,
@@ -298,6 +347,7 @@ const PostContextProvider = ({ children }) => {
     setIsFollowing,
     posts,
     post,
+    userPosts,
     comments,
     setComments,
     expanded,

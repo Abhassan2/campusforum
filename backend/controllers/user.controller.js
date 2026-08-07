@@ -70,16 +70,8 @@ export const login = async (req, res) => {
         .json({ success: false, message: "Invalid Password" });
     }
 
-    const token = jwt.sign({ userId: isUserExist._id }, process.env.JWT_SECRET_KEY, { expiresIn: "3d" });
+    const token = jwt.sign({ userId: isUserExist._id }, process.env.JWT_SECRET_KEY, { expiresIn: "2d" });
     await userModel.updateOne({ _id: isUserExist._id }, { token });
-    
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 2*24*60*60*1000,
-      path: "/",
-    });
     
     return res.json({success: true, token });
 

@@ -42,7 +42,7 @@ export default function CommentCard({ comment }) {
         </div>
 
         {comment?.author._id === currentUser?._id && (
-          <ThreeDot id={comment?._id} />
+          <ThreeDot CommentId={comment?._id} />
         )}
       </div>
 

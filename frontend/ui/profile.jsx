@@ -15,7 +15,7 @@ import { VirtuosoGrid } from "react-virtuoso";
 import LinkButton from "./button";
 import NoPosts from "@/components/noPostsAvailable";
 
-function UserProfileUi({ userProfile, userPosts }) {
+function ProfileUi({ userProfile, userPosts }) {
   const { currentUser, isFollowing, setIsFollowing } = useContext(PostContext);
 
   useEffect(() => {
@@ -127,7 +127,7 @@ function UserProfileUi({ userProfile, userPosts }) {
   );
 }
 
-export default React.memo(UserProfileUi);
+export default React.memo(ProfileUi);
 
 {
   /* <div className="mt-2 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2">

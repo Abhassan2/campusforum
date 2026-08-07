@@ -3,13 +3,18 @@ import { PostContext } from "@/app/context/postContext";
 import React, { useContext, useEffect, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-export default function ThreeDot({ id }) {
-  const { deleteComment } = useContext(PostContext)
+export default function ThreeDot({ postId, CommentId }) {
+  const { deleteComment, deletePost } = useContext(PostContext)
   const [showTooltip, setShowTooltip] = useState(false);
-    
-  useEffect(()=>{
 
-  }, [showTooltip]);
+  const handleDelete = ()=>{
+    if(postId){
+      deletePost(postId)
+    }
+    if(CommentId){
+      deleteComment(CommentId)
+    }
+  }
 
   return (
     <div className="ml-auto mr-5 self-center text-neutral-800 relative">
@@ -23,7 +28,7 @@ export default function ThreeDot({ id }) {
           className="absolute -top-4 -left-7 -translate-x-1/2 
             bg-gray-700 text-white text-xs rounded px-2 py-1"
           onClick={()=>{
-            deleteComment(id)
+            handleDelete();
             setShowTooltip(!showTooltip);
           }}
         >

@@ -1,20 +1,18 @@
-import { cookies } from "next/headers";
+"use client";
 import dynamic from "next/dynamic";
 import HomeSkeleton from "@/skeleton/homeSkeleton";
 const PostList = dynamic(()=> import("@/ui/postList"),{
   loading: () => <HomeSkeleton />,
 });
-import { getAllPosts } from "@/api/serverApi";
+import { useContext, useEffect } from "react";
+import { PostContext } from "@/app/context/postContext";
 
-export default async function HomePage() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+export default function HomePage() {
+  const { homeFeed, posts } = useContext(PostContext);
 
-  let posts = null;
-  if (token) {
-    const data = await getAllPosts();
-    posts = data.posts;
-  }
+  useEffect(()=>{
+    homeFeed()
+  }, []);
 
   return (
     <>

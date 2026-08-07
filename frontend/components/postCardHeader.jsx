@@ -1,3 +1,4 @@
+"use client";
 import React, { useContext, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,7 +6,7 @@ import ThreeDot from "./threeDot";
 import { PostContext } from "@/app/context/postContext";
 
 export default function PostCardHeader({ post }) {
-  const { deletePost, currentUser, setIsFollowing, isFollowing } = useContext(PostContext);
+  const { currentUser, setIsFollowing, isFollowing } = useContext(PostContext);
 
   return (
     <div className="flex border-b md:border-b-0 p-2 border-neutral-300 gap-4 pb-2">
@@ -50,7 +51,7 @@ export default function PostCardHeader({ post }) {
       )} */}
 
       {post?.owner?._id === currentUser?._id && (
-        <ThreeDot deleteMethod={deletePost} id={post?.owner?._id} />
+        <ThreeDot postId={post?._id} />
       )}
     </div>
   );

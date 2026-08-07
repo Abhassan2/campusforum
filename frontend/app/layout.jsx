@@ -4,8 +4,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Poppins, Inter } from "next/font/google";
 import { PostContextProvider } from "./context/postContext";
-import { cookies } from "next/headers";
-import { fetchMe } from "@/api/serverApi";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,14 +23,6 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  console.log();
-  
-  let currentUser = null;
-  if(token){
-    currentUser = await fetchMe(token);
-  }
   
   return (
     <html
@@ -40,7 +30,7 @@ export default async function RootLayout({ children }) {
       className={`${poppins.variable} ${inter.variable}`}
     >
       <body className="min-h-full flex flex-col">
-        <AuthContextProvider initialUser={{currentUser, token}} >
+        <AuthContextProvider>
           <PostContextProvider>
             <ToastContainer position="top-right" autoClose={3000} />
             {children}

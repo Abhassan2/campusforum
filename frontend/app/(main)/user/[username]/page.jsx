@@ -7,6 +7,9 @@ import { useContext, useEffect, useState } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
 import LinkButton from "@/ui/button";
 import NoPosts from "@/components/noPostsAvailable";
+import NavLink from "@/components/navLink";
+import { LuSettings } from "react-icons/lu";
+import ProfileSkeleton from "@/skeleton/profileSkeleton";
 
 export default function UsernamePage() {
   const {
@@ -18,6 +21,7 @@ export default function UsernamePage() {
     toggleFollow,
     isFollowing,
     setIsFollowing,
+    isLoading
   } = useContext(PostContext);
   const { username } = useParams();
 
@@ -42,6 +46,10 @@ export default function UsernamePage() {
       toggleFollow(profile._id);
     }
   };
+
+  if(isLoading){
+    return <ProfileSkeleton />
+  }
 
   return (
     <div className="lg:px-4">

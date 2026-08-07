@@ -10,8 +10,7 @@ const PostCard = dynamic(() => import("@/components/postCard.jsx"), {
 import { FaUniversity } from "react-icons/fa";
 
 export default function ShowPostPage() {
-  const { showPost, token, setIsLoading, post } =
-    useContext(PostContext);
+  const { showPost, token, setIsLoading, post } = useContext(PostContext);
   const { postId } = useParams();
 
   useEffect(() => {

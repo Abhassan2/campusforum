@@ -78,7 +78,7 @@ export const showPost = async (req, res) => {
 export const deletePost = async (req, res) => {
   try {
     const { postId } = req.params;
-
+    
     const post = await postModel.findById(postId);
     if (!post) {
       return res
