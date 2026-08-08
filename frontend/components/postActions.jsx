@@ -7,9 +7,9 @@ import { useContext, useEffect, useState } from "react";
 import { PostContext } from "@/app/context/postContext";
 
 export default function PostActions({ lenOfComment, postId, postLikes }) {
-  const { setPostId, setOpenCommentBox, likeOnPost, currentUser } =
+  const { setPostId, setOpenCommentBox, likeOnPost, currentUser, postCommentLength } =
     useContext(PostContext);
-
+  
   const [isLike, setIsLike] = useState(false);
   const [countLikes, setCountLikes] = useState(0);
 
@@ -57,7 +57,7 @@ export default function PostActions({ lenOfComment, postId, postLikes }) {
           className="flex gap-2 items-center text-neutral-800"
         >
           <FaRegCommentDots className="text-xl cursor-pointer" />
-          <span>{lenOfComment}</span>
+          <span>{postCommentLength && postCommentLength.filter((c)=> c.post === postId).length}</span>
         </div>
 
         <div className=" text-neutral-800">

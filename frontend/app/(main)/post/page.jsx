@@ -28,7 +28,7 @@ export default function CreatePostPage() {
   return (
     <div className="pb-10">
       {/* create post header */}
-      <header className="flex px-3 py-2 mb-4 border-b-2 border-neutral-300">
+      <header className="flex px-3 py-2 mb-4 border-b border-neutral-300">
         <div className="flex gap-3 items-center">
           <FaUniversity className="text-[30px] text-blue-700" />
           <h1 className="text-[16px] font-semibold">Campus Forum</h1>

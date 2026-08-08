@@ -37,9 +37,9 @@ function ProfileUi({ userProfile, userPosts }) {
   return (
     <div className="lg:px-4">
       {/* profile header */}
-      <header className="flex justify-between items-center bg-white px-3 border-b-2 mb-2 border-neutral-300">
+      <header className="flex justify-between items-center bg-white px-3 border-b mb-2 border-neutral-300">
         <div>
-          <h4 className="text-[18px]">{userProfile?.owner?.username}</h4>
+          <h4 className="text-[18px]">{"@" + userProfile?.owner?.username}</h4>
         </div>
         {userProfile?._id === currentUser?._id && (
           <div className="sm:hidden">
@@ -49,7 +49,7 @@ function ProfileUi({ userProfile, userPosts }) {
       </header>
 
       {/* profile body */}
-      <div className="flex flex-col gap-2 border-b-2 border-neutral-300">
+      <div className="flex flex-col gap-2 border-b border-neutral-300">
         <div className="flex-1 flex mt-2 px-1 gap-4 md:gap-5">
           <Image
             src={
@@ -113,7 +113,7 @@ function ProfileUi({ userProfile, userPosts }) {
       {/* Posts */}
       {userPosts?.length !== 0 ? (
         <VirtuosoGrid
-          style={{ height: "400px" }}
+          style={{ height: "60vh" }}
           totalCount={userPosts?.length}
           itemContent={(index) => (
             <UserPost key={userPosts[index]._id} post={userPosts[index]} />

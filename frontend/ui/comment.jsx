@@ -40,7 +40,7 @@ export default function CommentUi() {
     <div
       className={`w-full fixed bottom-0 right-0 bg-white shadow-lg transform transition-transform duration-300 ${
         openCommentBox ? "translate-y-0 md:w-100" : "translate-y-full"
-      } h-screen`}
+      } h-[90vh] md:h-screen`}
     >
       <div className="grid">
         <div>

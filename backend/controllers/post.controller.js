@@ -66,8 +66,9 @@ export const showPost = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Post not found" });
     }
+    const comments = await commentModel.find({post: postId}).select("post");
     
-    return res.status(200).json({ success: true, post });
+    return res.status(200).json({ success: true, post, commentLength: comments });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message });
@@ -115,7 +116,8 @@ export const getAllPosts = async (req, res) => {
         },
       })
       .sort({ createdAt: -1 });
-    const comments = await commentModel.find({});
+    const postsId = posts.filter((post)=> post._id);
+    const comments = await commentModel.find({}).select("post");
 
     return res.status(200).json({ success: true, posts, comments });
   } catch (error) {

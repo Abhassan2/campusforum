@@ -25,6 +25,7 @@ const PostContextProvider = ({ children }) => {
   const [userPosts, setUserPosts] = useState([]);
   const [post, setPost] = useState([]);
   const [comments, setComments] = useState([]);
+  const [postCommentLength, setPostCommentLength] = useState([]);
   const [comment, setComment] = useState("");
   
   // const uploadPost = async (caption, file) => {
@@ -135,6 +136,7 @@ const PostContextProvider = ({ children }) => {
       if (response.data.success) {
         setIsLoading(false)
         setPosts(response.data.posts);
+        setPostCommentLength(response.data.comments);
       } else {
         setIsLoading(false)
         console.error("In homeFeed error: ",response.data.message);
@@ -200,6 +202,7 @@ const PostContextProvider = ({ children }) => {
       if (response.data.success) {
         setIsLoading(false);
         setPost(response.data.post);
+        setPostCommentLength(response.data.commentLength);
       } else {
         setIsLoading(false);
         toast.error(response.data.message);
@@ -336,6 +339,7 @@ const PostContextProvider = ({ children }) => {
   const value = {
     homeFeed,
     getProfile,
+    postCommentLength,
 
     router,
     currentUser,

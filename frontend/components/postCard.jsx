@@ -37,7 +37,7 @@ function PostCard({ post, comments }) {
       <div className="md:hidden">
         <PostCardHeader post={post} />
       </div>
-      {post?.media[0]?.type.includes("image") && (
+      {post?.media?.some((m)=> m.type.includes("image")) && (
         <Image
           src={post?.media[0]?.url || "/landing_img.png"}
           loading="eager"
@@ -47,7 +47,7 @@ function PostCard({ post, comments }) {
           className="w-full max-h-115 min-w-60 sm:w-full sm:h-120 md:max-w-150"
         />
       )}
-      {post?.media[0]?.type.includes("video") && (
+      {post?.media?.some((m)=> m.type.includes("video")) && (
         <div className="relative aspect-w-16 aspect-h-9 w-full">
           <video
             ref={videoRef}
@@ -113,7 +113,7 @@ function PostCard({ post, comments }) {
         {/* post caption */}
         <div className="text-[14px] my-2 md:text-[16px] md:px-4">
           <p className="text-clip">
-            {expanded ? post?.caption : post?.caption.substring(0, 50)}
+            {expanded ? post?.caption : post?.caption?.slice(0, 60)}
             <ToggleReadBtn
               textLength={post?.caption?.length}
               isExpanded={expanded}

@@ -17,7 +17,7 @@ export default function MainLayout({ children }) {
 
       <div className="flex-1 flex flex-col">
         <Header />
-        <div className={`flex-1 overflow-y-scroll hide-scrollbar transition-transform duration-300`}>
+        <div className="flex-1 overflow-y-scroll">
           {children}
         </div>
         <BottomNav />
