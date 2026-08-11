@@ -4,13 +4,14 @@ import Image from "next/image";
 import { PostContext } from "@/app/context/postContext";
 import ToggleReadBtn from "./toggleReadBtn";
 import ThreeDot from "./threeDot";
+import Loader from "./Loader";
 
-export default function CommentCard({ comment }) {
-  const { currentUser } = useContext(PostContext);
+function CommentCard({ comment }) {
+  const { currentUser, deletingIds } = useContext(PostContext);
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="h-fit px-2 py-2 border-b md:border-b-0 border-neutral-400">
+    <div className="h-fit px-2 py-2 border-b md:border-b-0 border-neutral-300">
       <div className="flex border-neutral-300 gap-3 pb-2">
         <Image
           src={
@@ -41,9 +42,8 @@ export default function CommentCard({ comment }) {
           </span> */}
         </div>
 
-        {comment?.author._id === currentUser?._id && (
-          <ThreeDot CommentId={comment?._id} />
-        )}
+        {comment?.author._id === currentUser?._id &&
+          (deletingIds.includes(comment?._id) ? <Loader size="sm" text1="" /> : <ThreeDot CommentId={comment?._id} />)}
       </div>
 
       <p className="text-[14px] md:text-[16px]">
@@ -52,9 +52,11 @@ export default function CommentCard({ comment }) {
         <ToggleReadBtn
           textLength={comment?.comment.length}
           isExpanded={expanded}
-          onToggle={()=> setExpanded(prev => !prev)}
+          onToggle={() => setExpanded((prev) => !prev)}
         />
       </p>
     </div>
   );
 }
+
+export default React.memo(CommentCard);

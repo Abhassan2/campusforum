@@ -27,7 +27,8 @@ const PostContextProvider = ({ children }) => {
   const [comments, setComments] = useState([]);
   const [postCommentLength, setPostCommentLength] = useState([]);
   const [comment, setComment] = useState("");
-  
+  const [deletingIds, setDeletingIds] = useState([]);
+
   // const uploadPost = async (caption, file) => {
   //   try {
   //     setIsLoading(true);
@@ -111,12 +112,14 @@ const PostContextProvider = ({ children }) => {
 
   const deletePost = async (postId) => {
     try {
+      setDeletingIds((prev) => [...prev, postId]);
       const response = await clientServer.delete(`/api/user/post/${postId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       if (response.data.success) {
+        await homeFeed();
         toast.success(response.data.message);
       } else {
         console.log("delete post")
@@ -125,6 +128,8 @@ const PostContextProvider = ({ children }) => {
     } catch (error) {
       console.log("delete post")
       toast.error(error.response?.data.message);
+    } finally {
+      setDeletingIds((prev) => prev.filter((cid) => cid !== postId));
     }
   };
 
@@ -134,16 +139,15 @@ const PostContextProvider = ({ children }) => {
       const response = await clientServer.get("/api/user/post");
 
       if (response.data.success) {
-        setIsLoading(false)
         setPosts(response.data.posts);
         setPostCommentLength(response.data.comments);
       } else {
-        setIsLoading(false)
         console.error("In homeFeed error: ",response.data.message);
       }
     } catch (error) {
-      setIsLoading(false)
       console.log("Error fetching all posts as homeFeed: ", error);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -156,16 +160,15 @@ const PostContextProvider = ({ children }) => {
         },
       });
       if (response.data.success) {
-        setIsLoading(false)
         setProfile(response.data.profile);
         setUserPosts(response.data.userPosts);
       } else {
-        setIsLoading(false)
         console.log(response.data.message);
       }
     } catch (error) {
-      setIsLoading(false)
       console.log("Error fetching user profile: ", error);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -215,22 +218,22 @@ const PostContextProvider = ({ children }) => {
 
   const getAllPosts = async () => {
     try {
+      setIsLoading(true);
       const response = await clientServer.get("/api/user/post");
 
       if (response.data.success) {
-        setIsLoading(false);
         setPosts(response.data.posts);
       } else {
-        setIsLoading(false);
         toast.error(response.data.message);
       }
     } catch (error) {
+      console.log(error.response?.data || error);
+    } finally {
       setIsLoading(false);
-      console.log(error.response?.data);
     }
   };
 
-  const sendComment = async (postId) => {
+  const doComment = async (postId) => {
     try {
       const response = await clientServer.post(
         `/api/user/post/${postId}/comment`,
@@ -254,6 +257,7 @@ const PostContextProvider = ({ children }) => {
 
   const fetchCommentsByPostId = async (postId) => {
     try {
+      setIsLoading(true)
       const response = await clientServer.get(
         `api/user/post/${postId}/comment`,
       );
@@ -263,11 +267,14 @@ const PostContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false)
     }
   };
 
   const deleteComment = async (commentId) => {
     try {
+      setDeletingIds((prev) => [...prev, commentId]);
       const response = await clientServer.delete(
         `/api/user/post/comment/${commentId}`,
         {
@@ -277,12 +284,14 @@ const PostContextProvider = ({ children }) => {
         },
       );
       if (response.data.success) {
-        fetchCommentsByPostId(postId);
+        await fetchCommentsByPostId(postId);
       } else {
         toast.error("Internal server error");
       }
     } catch (error) {
       console.log(error.response?.data);
+    } finally {
+      setDeletingIds((prev) => prev.filter((cid) => cid !== commentId));
     }
   };
 
@@ -340,6 +349,7 @@ const PostContextProvider = ({ children }) => {
     homeFeed,
     getProfile,
     postCommentLength,
+    deletingIds,
 
     router,
     currentUser,
@@ -368,7 +378,7 @@ const PostContextProvider = ({ children }) => {
     editProfile,
     showPost,
     getAllPosts,
-    sendComment,
+    doComment,
     deleteComment,
     deletePost,
     likeOnPost,

@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
-import UserPostSkeleton from "@/skeleton/userPostSkeleton";
-const UserPost = dynamic(() => import("@/components/userPost"), {
+import UserPostSkeleton from "@/skeleton/CubePostSkeleton";
+const UserPost = dynamic(() => import("@/components/CubePost"), {
   loading: () => <UserPostSkeleton />,
   ssr: false,
 });
@@ -12,7 +12,7 @@ import { FaUniversity } from "react-icons/fa";
 import { VirtuosoGrid } from "react-virtuoso";
 
 export default function ExplorePage() {
-  const { getAllPosts, token, posts } = useContext(PostContext);
+  const { getAllPosts, token, posts, isLoading } = useContext(PostContext);
   const [query, setQuery] = useState("");
 
   const handleSearch = () => {

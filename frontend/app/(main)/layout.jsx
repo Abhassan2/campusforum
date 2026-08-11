@@ -2,7 +2,7 @@
 import Header from "@/components/header";
 import dynamic from "next/dynamic";
 import InfoPanel from "@/components/infoPanel.jsx";
-import CommentUi from "@/ui/comment";
+import CommentUi from "@/ui/Comment";
 import { useContext } from "react";
 import { PostContext } from "../context/postContext";
 const Sidebar = dynamic(() => import("@/components/sidebar.jsx"));

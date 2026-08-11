@@ -2,7 +2,7 @@
 import { PostContext } from "@/app/context/postContext";
 import { useContext, useEffect, useState } from "react";
 import { FaUniversity } from "react-icons/fa";
-import Loader from "@/components/loader";
+import Loader from "@/components/Loader";
 
 export default function CreatePostPage() {
   const { uploadPost, isLoading } = useContext(PostContext);

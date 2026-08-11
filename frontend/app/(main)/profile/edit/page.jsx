@@ -1,6 +1,6 @@
 "use client";
 import { PostContext } from "@/app/context/postContext.jsx";
-import Loader from "@/components/loader";
+import Loader from "@/components/Loader";
 import { useContext, useState } from "react";
 import { FaUniversity } from "react-icons/fa";
 

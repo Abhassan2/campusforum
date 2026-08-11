@@ -95,15 +95,6 @@ const AuthContextProvider = ({ children }) => {
         router.push("/profile");
       }
     }
-  }, [pathname]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const savedToken = localStorage.getItem("token");
-    if (savedToken) {
-      setToken(savedToken);
-    }
   }, [pathname]); 
 
   useEffect(() => {

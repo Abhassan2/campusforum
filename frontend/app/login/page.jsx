@@ -1,7 +1,7 @@
 "use client";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/authContext.jsx";
-import Loader from "@/components/loader.jsx";
+import Loader from "@/components/Loader.jsx";
 
 export default function Page() {
   const { handleLogin, handleRegister, isLoading } = useContext(AuthContext);

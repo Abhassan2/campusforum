@@ -4,9 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import ThreeDot from "./threeDot";
 import { PostContext } from "@/app/context/postContext";
+import Loader from "./Loader";
 
 export default function PostCardHeader({ post }) {
-  const { currentUser, setIsFollowing, isFollowing } = useContext(PostContext);
+  const { currentUser, deletingIds, setIsFollowing, isFollowing } =
+    useContext(PostContext);
 
   return (
     <div className="flex border-b md:border-b-0 p-2 border-neutral-300 gap-4 pb-2">
@@ -24,7 +26,7 @@ export default function PostCardHeader({ post }) {
       />
       <div className="flex gap-4">
         <Link rel="preload" href={`/user/${post?.owner?.owner?.username}`}>
-          <h2 className="text-[14px] sm:text-[16px] mt-2 font-medium hover:underline cursor-pointer">
+          <h2 className="text-[14px] sm:text-[16px] mt-1 font-medium hover:underline cursor-pointer">
             {post?.owner?.owner?.username}
           </h2>
         </Link>
@@ -50,9 +52,14 @@ export default function PostCardHeader({ post }) {
         </div>
       )} */}
 
-      {post?.owner?._id === currentUser?._id && (
-        <ThreeDot postId={post?._id} />
-      )}
+      {post?.owner?._id === currentUser?._id &&
+        (deletingIds.includes(post?._id) ? (
+          <div className="ml-auto self-baseline ">
+            <Loader size="sm" text1="" />
+          </div>
+        ) : (
+          <ThreeDot postId={post?._id} />
+        ))}
     </div>
   );
 }

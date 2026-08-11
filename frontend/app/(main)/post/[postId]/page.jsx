@@ -4,7 +4,7 @@ import { useContext, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { PostContext } from "@/app/context/postContext.jsx";
 import PostCardSkeleton from "@/skeleton/postCardSkeleton.jsx";
-const PostCard = dynamic(() => import("@/components/postCard.jsx"), {
+const PostCard = dynamic(() => import("@/components/PostCard.jsx"), {
   loading: () => <PostCardSkeleton />,
 });
 import { FaUniversity } from "react-icons/fa";

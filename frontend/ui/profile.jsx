@@ -2,8 +2,8 @@
 import React from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import UserPostSkeleton from "@/skeleton/userPostSkeleton.jsx";
-const UserPost = dynamic(() => import("@/components/userPost.jsx"), {
+import UserPostSkeleton from "@/skeleton/CubePostSkeleton.jsx";
+const UserPost = dynamic(() => import("@/components/CubePost.jsx"), {
   loading: () => <UserPostSkeleton />,
   ssr: false,
 });
@@ -12,7 +12,7 @@ import { PostContext } from "@/app/context/postContext.jsx";
 import { useContext, useEffect } from "react";
 import NavLink from "@/components/navLink";
 import { VirtuosoGrid } from "react-virtuoso";
-import LinkButton from "./button";
+import LinkButton from "./LinkButton";
 import NoPosts from "@/components/noPostsAvailable";
 
 function ProfileUi({ userProfile, userPosts }) {
