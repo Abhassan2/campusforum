@@ -78,7 +78,7 @@ export default function CommentUi() {
                       bg-gray-100 placeholder:text-[14px] pl-3 py-2 focus:outline-1 outline-blue-600"
           />
           {isdoingComment ? (
-              <Loader size="sm" text1="" />
+            <Loader size="sm" text1="" />
           ) : (
             <svg
               onClick={() => handleComment(postId)}
