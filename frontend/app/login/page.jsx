@@ -135,7 +135,7 @@ export default function Page() {
 
             {/* Submit button */}
             {isLoading ? (
-              <Loader size="sm" />
+              <Loader size="md" />
             ) : (
               <button
                 type="submit"

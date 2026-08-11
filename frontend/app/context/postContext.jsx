@@ -200,19 +200,19 @@ const PostContextProvider = ({ children }) => {
 
   const showPost = async (postId) => {
     try {
+      setIsLoading(true);
       const response = await clientServer.get(`/api/user/post/${postId}`);
 
       if (response.data.success) {
-        setIsLoading(false);
         setPost(response.data.post);
         setPostCommentLength(response.data.commentLength);
       } else {
-        setIsLoading(false);
         toast.error(response.data.message);
       }
     } catch (error) {
-      setIsLoading(false);
       console.log(error.response?.data);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -245,8 +245,8 @@ const PostContextProvider = ({ children }) => {
         },
       );
       if (response.data.success) {
+        await fetchCommentsByPostId(postId);
         setComment("");
-        fetchCommentsByPostId(postId);
       } else {
         toast.error("Internal server error");
       }

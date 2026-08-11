@@ -3,22 +3,23 @@ import dynamic from "next/dynamic";
 import { useContext, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { PostContext } from "@/app/context/postContext.jsx";
-import PostCardSkeleton from "@/skeleton/postCardSkeleton.jsx";
-const PostCard = dynamic(() => import("@/components/PostCard.jsx"), {
-  loading: () => <PostCardSkeleton />,
-});
+const PostCard = dynamic(() => import("@/components/PostCard.jsx"));
 import { FaUniversity } from "react-icons/fa";
+import HomeSkeleton from "@/skeleton/homeSkeleton";
 
 export default function ShowPostPage() {
-  const { showPost, token, setIsLoading, post } = useContext(PostContext);
+  const { showPost, post, isLoading } = useContext(PostContext);
   const { postId } = useParams();
 
   useEffect(() => {
-    if (token) {
-      setIsLoading(true);
-      showPost(postId);
-    }
-  }, [token]);
+    showPost(postId)
+  }, []);
+
+  if(isLoading){
+    return (
+      <HomeSkeleton />
+    );
+  }
 
   return (
     <>

@@ -12,7 +12,7 @@ export default function BottomNav() {
       <ul className="flex justify-around p-2">
         <NavLink href="/home" icon={RxHome} label="Home" />
         <NavLink href="/explore" icon={TbWorldSearch} label="Explore" />
-        <NavLink href="/post" icon={BiPlusCircle} label="Create Post" />
+        <NavLink href="/create-post" icon={BiPlusCircle} label="Create Post" />
         <NavLink href="/profile" icon={FaRegUser} label="Profile" />
       </ul>
     </div>

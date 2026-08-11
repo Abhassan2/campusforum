@@ -24,7 +24,6 @@ export default function CreatePostPage() {
 
     return () => URL.revokeObjectURL(url);
   }, [file]);
-
   return (
     <div className="pb-10">
       {/* create post header */}
@@ -62,7 +61,11 @@ export default function CreatePostPage() {
               />
             </svg>
             {file?.type.includes("image/") ? (
-              <img src={previewUrl} alt="preview" className=" w-full object-contain max-h-90" />
+              <img
+                src={previewUrl}
+                alt="preview"
+                className=" w-full object-contain max-h-90"
+              />
             ) : (
               <video
                 src={previewUrl}
@@ -86,12 +89,12 @@ export default function CreatePostPage() {
               name="mediaFile"
               onChange={(e) => setFile(e.target.files[0])}
               className="block w-full cursor-pointer text-sm text-gray-500
-                    border border-gray-300 rounded-md p-2
-                    file:mr-4 file:py-2 file:px-4
-                    file:rounded-md file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-blue-50 file:text-blue-700
-                    hover:file:bg-blue-100"
+                        border border-gray-300 rounded-md p-2
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-md file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-blue-50 file:text-blue-700
+                        hover:file:bg-blue-100"
               required
             />
 
@@ -107,13 +110,13 @@ export default function CreatePostPage() {
 
             {/* Submit Button */}
             {isLoading ? (
-              <Loader size="sm" text2="Uploading, this may take some time" />
+              <Loader size="md" text2="Uploading, this may take some time" />
             ) : (
               <button
                 type="submit"
                 className="bg-blue-600 cursor-pointer text-white py-2 rounded-md 
-                    active:bg-blue-50 active:outline-black active:text-black hover:bg-blue-700 transition 
-                    text-sm sm:text-base"
+                        active:bg-blue-50 active:outline-black active:text-black hover:bg-blue-700 transition 
+                        text-sm sm:text-base"
               >
                 Publish
               </button>
