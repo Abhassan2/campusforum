@@ -76,7 +76,7 @@ export const login = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "none",
+      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
     });
     return res.json({success: true, token });
 
