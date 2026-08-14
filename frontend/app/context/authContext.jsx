@@ -101,6 +101,8 @@ const AuthContextProvider = ({ children }) => {
     if (!token) return;
     fetchMe();
   }, [token, pathname]);
+
+  
   
   const value = {
     handleLogin,

@@ -4,6 +4,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Poppins, Inter } from "next/font/google";
 import { PostContextProvider } from "./context/postContext";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -23,7 +25,7 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  
+
   return (
     <html
       lang="en"
