@@ -10,7 +10,7 @@ import { FaUniversity } from "react-icons/fa";
 export default async function Page({ params }) {
   const { id } = await params;
   const cookiesStore = await cookies();
-  const token = cookiesStore.get("token").value
+  const token = cookiesStore.get("token")?.value
   console.log("token: ", token);
     
   const { post } = await fetchSinglePost(id);
