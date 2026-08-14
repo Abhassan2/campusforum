@@ -1,4 +1,4 @@
-import { fetchSinglePost } from "@/api/serverApi";
+import { fetchSinglePost } from "@/lib/api";
 import PostCardSkeleton from "@/skeleton/postCardSkeleton";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
@@ -11,7 +11,6 @@ export default async function Page({ params }) {
   const { id } = await params;
   const cookiesStore = await cookies();
   const token = cookiesStore.get("token")?.value
-  console.log("token: ", token);
     
   const { post } = await fetchSinglePost(id);
 

@@ -62,22 +62,6 @@ export const getUsersProfile = async (username) => {
   }
 };
 
-export const fetchSinglePost = async (postId) => {
-  try {
-    const response = await clientServer.get(`/api/user/post/${postId}`);
-
-    if (response.data.success) {
-      return response.data;
-      // setPost(response.data.post);
-      // setPostCommentLength(response.data.commentLength);
-    } else {
-      toast.error(response.data.message);
-    }
-  } catch (error) {
-    console.log(error.response?.data);
-  }
-};
-
 // export const fetchCommentsByPostId = async (postId)=>{
 //   try {
 //     const response = await clientServer.get(`api/user/post/${postId}/comment`);

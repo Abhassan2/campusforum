@@ -1,25 +1,18 @@
-"use client";
 import dynamic from "next/dynamic";
-import { useContext, useEffect } from "react";
-import { useParams } from "next/navigation";
-import { PostContext } from "@/app/context/postContext.jsx";
-const PostCard = dynamic(() => import("@/components/PostCard.jsx"));
+import { cookies } from "next/headers";
+import PostCardSkeleton from "@/skeleton/postCardSkeleton";
+import { fetchSinglePost } from "@/lib/api";
+const PostCard = dynamic(() => import("@/components/PostCard.jsx"), {
+  loading: () => <PostCardSkeleton />,
+});
 import { FaUniversity } from "react-icons/fa";
-import HomeSkeleton from "@/skeleton/homeSkeleton";
 
-export default function ShowPostPage() {
-  const { showPost, post, isLoading } = useContext(PostContext);
-  const { postId } = useParams();
+export default async function Page({ params }) {
+  const { postId } = await params;
+  const cookiesStore = await cookies();
+  const token = cookiesStore.get("token")?.value
 
-  useEffect(() => {
-    showPost(postId)
-  }, []);
-
-  if(isLoading){
-    return (
-      <HomeSkeleton />
-    );
-  }
+  const { post } = await fetchSinglePost(postId);
 
   return (
     <>
