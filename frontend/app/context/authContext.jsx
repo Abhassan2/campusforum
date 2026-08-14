@@ -102,7 +102,13 @@ const AuthContextProvider = ({ children }) => {
     fetchMe();
   }, [token, pathname]);
 
-  
+  useEffect(() => {
+    if (pathname === "/" || pathname === "/login") {
+      if (token) {
+        router.push("/home");
+      }
+    }
+  }, [pathname, router]);
   
   const value = {
     handleLogin,
