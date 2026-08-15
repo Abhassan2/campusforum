@@ -4,8 +4,7 @@ export const getProfile = async (token) => {
   try {
     const response = await clientServer.get("/api/user/profile", {
       headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`
       },
     });
     return response.data

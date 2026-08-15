@@ -8,8 +8,9 @@ const ProfileUi = dynamic(() => import("@/ui/Profile.jsx"),{
 
 export default async function ProfilePage() {
   const cookieStore = await cookies();
+  console.log("ALL COOKIES:", cookieStore.getAll());
   const token = cookieStore.get("token")?.value;
-
+  console.log("TOKEN:", token);
   if (!token) {
     return (
       <p className="flex justify-center items-center h-screen">
@@ -18,8 +19,18 @@ export default async function ProfilePage() {
     );
   }
 
-  const { profile, userPosts } = await getProfile(token);
+  const profileData = await getProfile(token);
 
+  if (!profileData) {
+    return (
+      <p className="flex justify-center items-center h-screen">
+        Failed to load profile
+      </p>
+    );
+  }
+
+  const { profile, userPosts } = profileData;
+  
   return (
     <>
       <ProfileUi userProfile={profile} userPosts={userPosts} />
