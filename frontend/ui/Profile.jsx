@@ -37,7 +37,7 @@ function ProfileUi({ userProfile, userPosts }) {
   return (
     <div className="lg:px-4">
       {/* profile header */}
-      <header className="flex justify-between items-center bg-white px-3 border-b mb-2 border-neutral-300">
+      <header className="flex justify-between items-center min-h-11 bg-white pl-2 border-b mb-2 border-neutral-300">
         <div>
           <h4 className="text-[18px]">{"@" + userProfile?.owner?.username}</h4>
         </div>

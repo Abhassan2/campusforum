@@ -1,11 +1,10 @@
 import "./globals.css";
 import { AuthContextProvider } from "./context/authContext.jsx";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, Zoom } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Poppins, Inter } from "next/font/google";
 import { PostContextProvider } from "./context/postContext";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { Analytics } from "@vercel/analytics/next";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,17 +24,19 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-
   return (
-    <html
-      lang="en"
-      className={`${poppins.variable} ${inter.variable}`}
-    >
+    <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
       <body className="min-h-full flex flex-col">
         <AuthContextProvider>
           <PostContextProvider>
-            <ToastContainer position="top-right" autoClose={3000} />
+            <ToastContainer
+              position="top-right"
+              autoClose={1500}
+              transition={Zoom}
+              toastClassName="custom-toast"
+            />
             {children}
+            <Analytics />
           </PostContextProvider>
         </AuthContextProvider>
       </body>
