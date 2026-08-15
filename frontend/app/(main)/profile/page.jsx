@@ -14,7 +14,7 @@ export default async function ProfilePage() {
     profile = data.profile;
     userPosts = data.userPosts;
   } else {
-    <P>OOPS! Something is Wrong</P>
+    return <p className="flex justify-center items-center h-screen">OOPs! Something is Wrong</p>
   }
 
   return (
