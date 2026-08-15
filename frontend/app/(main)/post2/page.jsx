@@ -5,14 +5,14 @@ const ProfileUi = dynamic(()=> import("@/ui/Profile"));
 import { redirect } from "next/navigation";
 
 export default async function Page() {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value
 
-    if(!token){
-        redirect("/login")
-    }
+  if(!token){
+    redirect("/login")
+  }
 
-    const { profile, userPosts} = await getProfile(token);
+  const { profile, userPosts} = await getProfile(token);
   return (
     <>
       <ProfileUi userProfile={profile} userPosts={userPosts} />

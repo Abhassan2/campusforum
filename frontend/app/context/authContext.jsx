@@ -1,12 +1,13 @@
 "use client";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import clientServer from "../config/clientServer.js";
 import { toast } from "react-toastify";
 import { useRouter, usePathname } from "next/navigation";
+import axios from "axios";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
-const AuthContextProvider = ({ children }) => {
+export const AuthContextProvider = ({ children }) => {
   const router = useRouter();
   const [token, setToken] = useState(() => {
     if (typeof window !== "undefined") {
@@ -17,7 +18,7 @@ const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
-  
+
   const fetchMe = async () => {
     try {
       const response = await clientServer.get("/api/user/me", {
@@ -37,22 +38,23 @@ const AuthContextProvider = ({ children }) => {
   const handleLogin = async (formData) => {
     try {
       setIsLoading(true);
-      const response = await clientServer.post("/api/user/login", formData);
+      const response = await axios.post("/api/auth/login", formData, {
+        withCredentials: true,
+      });
 
       if (response.data.success) {
-        setIsLoading(false);
         localStorage.setItem("token", response.data.token);
         setToken(response.data.token);
         router.push("/home");
         toast.success("Login successful!");
       } else {
-        setIsLoading(false);
         console.error(response.data.message);
         toast.error("Token not generated! Please try again");
       }
     } catch (error) {
+      console.error("Login failed:", error.response?.data || error.message);
+    } finally {
       setIsLoading(false);
-      console.log("error:  ", error);
     }
   };
 
@@ -78,9 +80,18 @@ const AuthContextProvider = ({ children }) => {
   };
 
   const handleLogout = async () => {
-    localStorage.removeItem("token");
-    setToken(null);
-    router.push("/login");
+    try {
+      const response = await axios.post("/api/auth/logout");
+
+      if (response.data.success) {
+        localStorage.removeItem("token");
+        setToken(null);
+        router.push("/login");
+        toast.success(response.data.message);
+      }
+    } catch (error) {
+      console.error(error.response?.data || error.message);
+    }
   };
 
   useEffect(() => {
@@ -95,7 +106,7 @@ const AuthContextProvider = ({ children }) => {
         router.push("/profile");
       }
     }
-  }, [pathname]); 
+  }, [pathname]);
 
   useEffect(() => {
     if (!token) return;
@@ -109,7 +120,7 @@ const AuthContextProvider = ({ children }) => {
       }
     }
   }, [pathname, router]);
-  
+
   const value = {
     handleLogin,
     handleRegister,
@@ -125,4 +136,7 @@ const AuthContextProvider = ({ children }) => {
   );
 };
 
-export { AuthContext, AuthContextProvider };
+export const useAuthContext = () => {
+  const context = useContext(AuthContext);
+  return context;
+};

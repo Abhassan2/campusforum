@@ -1,10 +1,10 @@
 "use client";
-import { useContext, useState } from "react";
-import { AuthContext } from "../context/authContext.jsx";
+import { useState } from "react";
+import { useAuthContext } from "../context/authContext.jsx";
 import Loader from "@/components/Loader.jsx";
 
 export default function Page() {
-  const { handleLogin, handleRegister, isLoading } = useContext(AuthContext);
+  const { handleLogin, handleRegister, isLoading } = useAuthContext();
 
   const [isSignIn, setIsSignIn] = useState(true);
   const [formData, setFormData] = useState({
@@ -18,7 +18,7 @@ export default function Page() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSignIn) {
       handleLogin(formData);
