@@ -7,7 +7,15 @@ export default async function ProfilePage() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
-  const { profile, userPosts } = await getProfile(token);
+  let profile;
+  let userPosts;
+  if(token){
+    const data = await getProfile(token);
+    profile = data.profile;
+    userPosts = data.userPosts;
+  } else {
+    <P>OOPS! Something is Wrong</P>
+  }
 
   return (
     <>
