@@ -18,6 +18,7 @@ export async function POST(req) {
       secure: true,
       sameSite: "lax",
       path: "/",
+      maxAge: 60 * 60 * 24 * 2,
     });
 
     return NextResponse.json(data);

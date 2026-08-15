@@ -5,27 +5,17 @@ import ProfileSkeleton from "@/skeleton/profileSkeleton";
 const ProfileUi = dynamic(() => import("@/ui/Profile.jsx"),{
   loading: () => <ProfileSkeleton />
 });
+import { redirect } from "next/navigation";
 
 export default async function ProfilePage() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
-  console.log("========== PROFILE DEBUG ==========");
-  console.log("TOKEN EXISTS:", !!token);
-
   if (!token) {
-    console.log("NO TOKEN FOUND");
-    return (
-      <p className="flex justify-center items-center h-screen">
-        OOPs! something is wrong
-      </p>
-    );
+    redirect("/login");
   }
 
   const profileData = await getProfile(token);
-
-  console.log("PROFILE DATA:", profileData);
-  console.log("===================================");
 
   if (!profileData) {
     return (
