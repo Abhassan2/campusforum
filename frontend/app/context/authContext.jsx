@@ -31,7 +31,13 @@ export const AuthContextProvider = ({ children }) => {
         return {};
       }
     } catch (error) {
-      console.error("Error fetching current user: ", error);
+      if(error?.response){
+        if (error.response.status === 401) {
+          console.error("Token issue → redirect to login");
+          router.push("/login")
+          localStorage.removeItem("token");
+        }
+      }
     }
   };
 
@@ -61,21 +67,22 @@ export const AuthContextProvider = ({ children }) => {
   const handleRegister = async (formData) => {
     try {
       setIsLoading(true);
-      const res = await clientServer.post("/api/user/register", formData);
+      const res = await axios.post("/api/auth/register", formData, {
+        withCredentials: true,
+      });
 
       if (res.data.token) {
-        setIsLoading(false);
         localStorage.setItem("token", res.data.token);
         setToken(res.data.token);
         toast.success("Signup successful!");
         router.push("/home");
       } else {
-        setIsLoading(false);
         toast.error("Please try again later");
       }
     } catch (error) {
+      console.log("error message:  ", error.message);
+    } finally {
       setIsLoading(false);
-      console.log("error:  ", error);
     }
   };
 
