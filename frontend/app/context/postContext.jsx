@@ -133,45 +133,6 @@ const PostContextProvider = ({ children }) => {
     }
   };
 
-  const homeFeed = async () => {
-    try {
-      setIsLoading(true)
-      const response = await clientServer.get("/api/user/post");
-
-      if (response.data.success) {
-        setPosts(response.data.posts);
-        setPostCommentLength(response.data.comments);
-      } else {
-        console.error("In homeFeed error: ",response.data.message);
-      }
-    } catch (error) {
-      console.log("Error fetching all posts as homeFeed: ", error);
-    } finally {
-      setIsLoading(false)
-    }
-  };
-
-  const getProfile = async () => {
-    try {
-      setIsLoading(true)
-      const response = await clientServer.get("/api/user/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.data.success) {
-        setProfile(response.data.profile);
-        setUserPosts(response.data.userPosts);
-      } else {
-        console.log(response.data.message);
-      }
-    } catch (error) {
-      console.log("Error fetching user profile: ", error);
-    } finally {
-      setIsLoading(false)
-    }
-  };
-
   const editProfile = async (formData) => {
     setIsLoading(true);
     try {
@@ -195,24 +156,6 @@ const PostContextProvider = ({ children }) => {
     } catch (error) {
       setIsLoading(false);
       console.log(error.response?.data);
-    }
-  };
-
-  const showPost = async (postId) => {
-    try {
-      setIsLoading(true);
-      const response = await clientServer.get(`/api/user/post/${postId}`);
-
-      if (response.data.success) {
-        setPost(response.data.post);
-        setPostCommentLength(response.data.commentLength);
-      } else {
-        toast.error(response.data.message);
-      }
-    } catch (error) {
-      console.log(error.response?.data);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -346,8 +289,6 @@ const PostContextProvider = ({ children }) => {
   };
 
   const value = {
-    homeFeed,
-    getProfile,
     postCommentLength,
     deletingIds,
 
@@ -376,7 +317,6 @@ const PostContextProvider = ({ children }) => {
     isLoading,
     setIsLoading,
     editProfile,
-    showPost,
     getAllPosts,
     doComment,
     deleteComment,

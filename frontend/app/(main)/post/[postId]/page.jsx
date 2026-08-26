@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import { cookies } from "next/headers";
 import PostCardSkeleton from "@/skeleton/postCardSkeleton";
 import { fetchSinglePost } from "@/lib/api";
 const PostCard = dynamic(() => import("@/components/PostCard.jsx"), {
@@ -9,7 +8,6 @@ import { FaUniversity } from "react-icons/fa";
 
 export default async function Page({ params }) {
   const { postId } = await params;
-  const cookiesStore = await cookies();
 
   const { post } = await fetchSinglePost(postId);
 

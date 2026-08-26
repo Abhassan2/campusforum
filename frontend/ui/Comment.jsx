@@ -8,7 +8,7 @@ const CommentCard = dynamic(() => import("@/components/commentCard"), {
   loading: () => <CommentSkeleton />,
 });
 import { VirtuosoGrid } from "react-virtuoso";
-import Loader from "@/components/Loader";
+import Loader from "./Loader";
 
 export default function CommentUi() {
   const {
@@ -42,7 +42,7 @@ export default function CommentUi() {
     <div
       className={`w-full fixed bottom-0 right-0 bg-white shadow-lg transform transition-transform duration-300 ${
         openCommentBox ? "translate-y-0 md:w-100" : "translate-y-full"
-      } h-[95vh] md:h-screen overflow-y-scroll`}
+      } h-screen pt-8 md:pt-0 overflow-y-scroll`}
     >
       <div className="grid">
         <div className=" flex items-center mx-3 mt-4">
@@ -67,7 +67,7 @@ export default function CommentUi() {
           <h2 className="mx-25 font-bold">Comments</h2>
         </div>
 
-        <div className=" flex border-b border-neutral-300 justify-center gap-2 py-5 px-2">
+        <div className=" flex border-b border-neutral-300 justify-center items-center gap-2 py-5 px-2">
           <input
             type="text"
             placeholder="Write a comment..."
@@ -78,7 +78,7 @@ export default function CommentUi() {
                       bg-gray-100 placeholder:text-[14px] pl-3 py-2 focus:outline-1 outline-blue-600"
           />
           {isdoingComment ? (
-            <Loader size="sm" text1="" />
+            <Loader size="sm" />
           ) : (
             <svg
               onClick={() => handleComment(postId)}

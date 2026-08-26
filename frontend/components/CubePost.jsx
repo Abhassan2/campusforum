@@ -30,7 +30,7 @@ export default function UserPost({ post }) {
           </div>
         ) : (
           <div className="relative">
-            <video className="w-full h-35 sm:w-full sm:h-40 bg-[#000000d4] p-1">
+            <video className="w-full h-35 sm:w-full sm:h-40 bg-[#000000d4]">
               <source src={post?.media[0].url} type="video/mp4" />
             </video>
             <svg

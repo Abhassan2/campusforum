@@ -4,7 +4,7 @@ import Image from "next/image";
 import { PostContext } from "@/app/context/postContext";
 import ToggleReadBtn from "./toggleReadBtn";
 import ThreeDot from "./threeDot";
-import Loader from "./Loader";
+import Loader from "@/ui/Loader";
 
 function CommentCard({ comment }) {
   const { currentUser, deletingIds } = useContext(PostContext);
@@ -37,13 +37,10 @@ function CommentCard({ comment }) {
               author
             </span>
           )}
-          {/* <span className="text-[11px] mx-auto sm:text-lg p-0.5 ml-auto font-light">
-            {comment?.createdAt.split("T")[0]}
-          </span> */}
         </div>
 
         {comment?.author._id === currentUser?._id &&
-          (deletingIds.includes(comment?._id) ? <Loader size="sm" text1="" /> : <ThreeDot CommentId={comment?._id} />)}
+          (deletingIds.includes(comment?._id) ? <Loader size="sm" /> : <ThreeDot CommentId={comment?._id} />)}
       </div>
 
       <p className="text-[14px] md:text-[16px]">

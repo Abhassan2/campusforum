@@ -65,7 +65,9 @@ Content-Type: application/json
 
 ###
 
+# get posts comment length
+GET http://localhost:4040/api/user/post/6a76ebab30ae1e401c5099c5/comments/count HTTP/1.1
+Content-Type: application/json
 
 
-
-
+###

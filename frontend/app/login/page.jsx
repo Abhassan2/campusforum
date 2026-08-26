@@ -78,7 +78,7 @@ export default function Page() {
 
             <div className="relative mb-6">
               <input
-                type="text"
+                type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}

@@ -6,7 +6,7 @@ import { FcLike } from "react-icons/fc";
 import { useContext, useEffect, useState } from "react";
 import { PostContext } from "@/app/context/postContext";
 
-export default function PostActions({ lenOfComment, postId, postLikes }) {
+export default function PostActions({ postId, postLikes }) {
   const { setPostId, setOpenCommentBox, likeOnPost, currentUser, postCommentLength } =
     useContext(PostContext);
   
@@ -32,6 +32,7 @@ export default function PostActions({ lenOfComment, postId, postLikes }) {
     }
   }, [postLikes?.length]);
 
+  
   return (
     <div className="flex">
       <div className="w-1/2 flex justify-between">

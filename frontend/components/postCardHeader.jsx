@@ -7,8 +7,7 @@ import { PostContext } from "@/app/context/postContext";
 import Loader from "./Loader";
 
 export default function PostCardHeader({ post }) {
-  const { currentUser, deletingIds, setIsFollowing, isFollowing } =
-    useContext(PostContext);
+  const { currentUser, deletingIds } = useContext(PostContext);
 
   return (
     <div className="flex border-b md:border-b-0 p-2 border-neutral-300 gap-4 pb-2">
@@ -31,26 +30,6 @@ export default function PostCardHeader({ post }) {
           </h2>
         </Link>
       </div>
-
-      {/* {post?.owner?._id !== currentUser?._id && (
-        <div>
-          {isFollowing ? (
-            <button
-              className="h-fit mt-2 px-2 py-1 ml-auto mr-5 text-black border border-neutral-300 bg-gray-200 rounded active:border-black cursor-pointer"
-              onClick={handleONClick}
-            >
-              Following
-            </button>
-          ) : (
-            <button
-              className="h-fit mt-2 px-2 py-1 ml-auto mr-5 text-black border border-neutral-300 bg-gray-200 rounded active:border-black cursor-pointer"
-              onClick={handleONClick}
-            >
-              Follow
-            </button>
-          )}
-        </div>
-      )} */}
 
       {post?.owner?._id === currentUser?._id &&
         (deletingIds.includes(post?._id) ? (
