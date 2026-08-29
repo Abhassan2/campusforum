@@ -1,5 +1,20 @@
 import clientServer from "@/app/config/clientServer";
 
+export const fetchMe = async (token) => {
+  try {
+    const response = await clientServer.get("/api/user/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (response.data.success) {
+      return response.data.currentUserProfile;
+    } else {
+      return response.data.currentUserProfile || {};
+    }
+  } catch (error) {
+    console.error("Error fetching current user: ", error);
+  }
+};
+
 export const getProfile = async (token) => {
   try {
     const response = await clientServer.get("/api/user/profile", {
@@ -11,6 +26,23 @@ export const getProfile = async (token) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching user profile: ", error);
+  }
+};
+
+export const editProfile = async (token, formData) => {
+  try {
+    const response = await clientServer.put(
+      "/api/user/profile/edit",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+  } catch (error) {
+    console.log(error.response?.data);
   }
 };
 

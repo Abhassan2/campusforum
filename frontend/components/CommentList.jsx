@@ -4,10 +4,12 @@ import dynamic from "next/dynamic";
 import { usePostContext } from "@/app/context/postContext";
 import CommentSkeleton from "@/skeleton/commentSkeleton";
 import NoComments from "@/components/noCommentsAvailable";
+import Loader from "../ui/Loader.jsx";
+import { MoveLeft, SendHorizontal } from "lucide-react";
 const CommentCard = dynamic(() => import("@/components/commentCard"), {
   loading: () => <CommentSkeleton />,
+  ssr: false,
 });
-import Loader from "../ui/Loader.jsx";
 
 export default function CommentList() {
     const {
@@ -45,24 +47,14 @@ export default function CommentList() {
     >
       <div className="grid">
         <div className=" flex items-center mx-3 mt-4">
-          <svg
+          <MoveLeft
+            size={30}
             onClick={() => {
               setOpenCommentBox(false);
               setPostId(null);
             }}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="size-7 "
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
-            />
-          </svg>
+            className="border border-black/20 rounded-sm p-1 bg-gray-100 active:bg-gray-200"
+          />
           <h2 className="mx-25 font-bold">Comments</h2>
         </div>
 
@@ -79,22 +71,10 @@ export default function CommentList() {
           {isdoingComment ? (
             <Loader size="sm" />
           ) : (
-            <svg
+            <SendHorizontal
               onClick={() => handleComment(postId)}
-              id="doComment"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
               className="size-10 bg-gray-800 rounded-full text-white p-1"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-              />
-            </svg>
+            />
           )}
         </div>
 

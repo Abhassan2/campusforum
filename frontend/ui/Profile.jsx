@@ -5,6 +5,11 @@ import dynamic from "next/dynamic";
 import UserPostSkeleton from "@/skeleton/CubePostSkeleton.jsx";
 import ButtonSkeleton from "@/skeleton/ButtonSkeleton";
 
+import { Settings } from "lucide-react";
+import usePostContext from "@/app/context/postContext.jsx";
+import NavLink from "@/components/navLink";
+import NoPosts from "@/components/noPostsAvailable";
+
 const UserPost = dynamic(() => import("@/components/CubePost.jsx"), {
   loading: () => <UserPostSkeleton />,
   ssr: false,
@@ -13,26 +18,14 @@ const LinkButton = dynamic(() => import("./LinkButton.jsx"), {
   loading: () => <ButtonSkeleton />,
   ssr: false,
 });
+const FollowBtn = dynamic(() => import("@/ui/FollowBtn.jsx"), {
+  loading: () => <ButtonSkeleton />,
+  ssr: false,
+});
 
-import { Settings } from "lucide-react";
-import { usePostContext } from "@/app/context/postContext.jsx";
-import NavLink from "@/components/navLink";
-import NoPosts from "@/components/noPostsAvailable";
 
 function ProfileUi({ userProfile, userPosts }) {
-  const { currentUser, toggleFollow } = usePostContext();
-  const [isFollowing, setIsFollowing] = useState(
-    userProfile?.followers?.includes(currentUser?._id),
-  );
-
-  useEffect(() => {
-    setIsFollowing(userProfile?.followers?.includes(currentUser?._id) ?? false);
-  }, [userProfile?.followers, currentUser?._id]);
-
-  const handleONClick = useCallback(() => {
-    setIsFollowing((prev) => !prev);
-    toggleFollow(userProfile._id);
-  }, [toggleFollow, userProfile._id]);
+  const { currentUser } = usePostContext();
 
   return (
     <div className="lg:px-4">
@@ -93,20 +86,19 @@ function ProfileUi({ userProfile, userPosts }) {
         <div className="mx-2 max-w-200">
           <p className="text-[14px] sm:text-base">{userProfile?.bio}</p>
         </div>
-        {userProfile?._id === currentUser?._id && (
-          <div className="my-4 px-2">
+
+        <div className="flex gap-4 mx-2 my-2">
+          {userProfile?._id === currentUser?._id ? (
             <LinkButton href="/profile/edit" text="Edit Profile" />
-          </div>
-        )}
-        {userProfile?._id !== currentUser?._id && (
-          <div className="flex gap-4 mx-2 my-2">
-            <LinkButton text="Message" />
-            <LinkButton
-              text={isFollowing ? "Following" : "Follow"}
-              onClick={handleONClick}
-            />
-          </div>
-        )}
+          ) : (
+            <>
+              <LinkButton text="Message" />
+              <FollowBtn
+                userProfile={userProfile}
+              />
+            </>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-3 sm:grid-cols-5 gap-0.5 mt-2 ">
@@ -122,4 +114,3 @@ function ProfileUi({ userProfile, userPosts }) {
 }
 
 export default React.memo(ProfileUi);
-
