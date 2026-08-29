@@ -74,6 +74,7 @@ export const editProfile = async (req, res) => {
     }
 
     if (req.file && req.file.path) updatedProfile.profilePic = req.file.path;
+    user.profile = updatedProfile._id
     await user.save();
     await updatedProfile.save();
 

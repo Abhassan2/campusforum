@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 const PostList = dynamic(() => import("@/ui/PostList"));
-import { FaUniversity, FaFacebookMessenger } from "react-icons/fa";
+import { FaUniversity } from "react-icons/fa";
+import { Send } from "lucide-react";
 import { getFeedPosts } from "@/lib/api";
 
 export default async function HomePage() {
@@ -14,7 +15,7 @@ export default async function HomePage() {
           <FaUniversity className="text-[30px] text-blue-700" />
           <h1 className="text-[16px] font-semibold">Campusforum</h1>
         </div>
-        <FaFacebookMessenger size={22} className="lg:hidden" />
+        <Send size={22} className="lg:hidden" />
       </header>
 
       <PostList posts={posts} />

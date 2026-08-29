@@ -3,10 +3,10 @@ import PostCard from "@/components/PostCard";
 import { Suspense } from "react";
 
 export default function PostList({ posts }) {
-
+  
   return (
     <div className="flex flex-col">
-      <div className="grid sm:px-2 sm:grid-cols-2 lg:grid-cols-none lg:flex lg:flex-wrap lg:justify-center gap-2">
+      <div className="flex flex-col">
         {Array.isArray(posts) &&
           posts.map((post) => (
             <Suspense key={post._id} fallback={ <PostCardSkeleton /> }>

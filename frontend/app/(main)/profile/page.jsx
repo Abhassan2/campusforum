@@ -1,16 +1,15 @@
 import dynamic from "next/dynamic";
-import { cookies } from "next/headers";
 import { getProfile } from "@/lib/api";
 import ProfileSkeleton from "@/skeleton/profileSkeleton";
 const ProfileUi = dynamic(() => import("@/ui/Profile.jsx"),{
   loading: () => <ProfileSkeleton />
 });
 import { redirect } from "next/navigation";
+import getToken from "@/hooks/getToken";
 
 export default async function ProfilePage() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-
+  const token = await getToken();
+  
   if (!token) {
     redirect("/login");
   }

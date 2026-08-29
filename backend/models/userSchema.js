@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
 
+    profile: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Profile",
+    },
+
     token: {
         type: String,
         default: "",

@@ -1,38 +1,38 @@
 "use client";
-import React from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import UserPostSkeleton from "@/skeleton/CubePostSkeleton.jsx";
+import ButtonSkeleton from "@/skeleton/ButtonSkeleton";
+
 const UserPost = dynamic(() => import("@/components/CubePost.jsx"), {
   loading: () => <UserPostSkeleton />,
   ssr: false,
 });
-import { LuSettings } from "react-icons/lu";
-import { PostContext } from "@/app/context/postContext.jsx";
-import { useContext, useEffect } from "react";
+const LinkButton = dynamic(() => import("./LinkButton.jsx"), {
+  loading: () => <ButtonSkeleton />,
+  ssr: false,
+});
+
+import { Settings } from "lucide-react";
+import { usePostContext } from "@/app/context/postContext.jsx";
 import NavLink from "@/components/navLink";
-import { VirtuosoGrid } from "react-virtuoso";
-import LinkButton from "./LinkButton";
 import NoPosts from "@/components/noPostsAvailable";
 
 function ProfileUi({ userProfile, userPosts }) {
-  const { currentUser, isFollowing, setIsFollowing } = useContext(PostContext);
+  const { currentUser, toggleFollow } = usePostContext();
+  const [isFollowing, setIsFollowing] = useState(
+    userProfile?.followers?.includes(currentUser?._id),
+  );
 
   useEffect(() => {
-    if (userProfile && currentUser) {
-      setIsFollowing(userProfile?.followers?.includes(currentUser?._id));
-    }
-  }, [userProfile, currentUser]);
+    setIsFollowing(userProfile?.followers?.includes(currentUser?._id) ?? false);
+  }, [userProfile?.followers, currentUser?._id]);
 
-  const handleONClick = () => {
-    if (isFollowing) {
-      setIsFollowing(!isFollowing);
-      toggleFollow(userProfile._id);
-    } else {
-      setIsFollowing(!isFollowing);
-      toggleFollow(userProfile._id);
-    }
-  };
+  const handleONClick = useCallback(() => {
+    setIsFollowing((prev) => !prev);
+    toggleFollow(userProfile._id);
+  }, [toggleFollow, userProfile._id]);
 
   return (
     <div className="lg:px-4">
@@ -43,7 +43,7 @@ function ProfileUi({ userProfile, userPosts }) {
         </div>
         {userProfile?._id === currentUser?._id && (
           <div className="sm:hidden">
-            <NavLink href="/settings" icon={LuSettings} label="Settings" />
+            <NavLink href="/settings" icon={Settings} label="Settings" />
           </div>
         )}
       </header>
@@ -99,40 +99,27 @@ function ProfileUi({ userProfile, userPosts }) {
           </div>
         )}
         {userProfile?._id !== currentUser?._id && (
-          <div className="flex gap-4 my-2">
+          <div className="flex gap-4 mx-2 my-2">
             <LinkButton text="Message" />
-            {isFollowing ? (
-              <LinkButton text="Following" onClick={handleONClick} />
-            ) : (
-              <LinkButton text="Follow" onClick={handleONClick} />
-            )}
+            <LinkButton
+              text={isFollowing ? "Following" : "Follow"}
+              onClick={handleONClick}
+            />
           </div>
         )}
       </div>
 
-      {/* Posts */}
-      {userPosts?.length !== 0 ? (
-        <VirtuosoGrid
-          style={{ height: "60vh" }}
-          totalCount={userPosts?.length}
-          itemContent={(index) => (
-            <UserPost key={userPosts[index]._id} post={userPosts[index]} />
-          )}
-          listClassName="grid grid-cols-3 sm:grid-cols-5 gap-0.5 mt-2"
-        />
-      ) : (
-        <NoPosts />
-      )}
+      <div className="grid grid-cols-3 sm:grid-cols-5 gap-0.5 mt-2 ">
+        {/* Posts */}
+        {Array.isArray(userPosts) && userPosts.length === 0 ? (
+          <NoPosts />
+        ) : (
+          userPosts?.map((post) => <UserPost key={post?._id} post={post} />)
+        )}
+      </div>
     </div>
   );
 }
 
 export default React.memo(ProfileUi);
 
-{
-  /* <div className="mt-2 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2">
-  {userPosts.map((post, index) => (
-    <UserPost key={index} post={post} />
-  ))}
-</div> */
-}

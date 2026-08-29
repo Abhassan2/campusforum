@@ -1,14 +1,11 @@
 "use client";
-import { FaRegHeart, FaRegCommentDots } from "react-icons/fa";
-import { MdSaveAlt } from "react-icons/md";
-import { PiShareFatBold } from "react-icons/pi";
 import { FcLike } from "react-icons/fc";
-import { useContext, useEffect, useState } from "react";
-import { PostContext } from "@/app/context/postContext";
+import { useEffect, useState } from "react";
+import usePostContext from "@/app/context/postContext";
+import { Heart, Share2, Bookmark, MessageCircleMore } from "lucide-react";
 
-export default function PostActions({ postId, postLikes }) {
-  const { setPostId, setOpenCommentBox, likeOnPost, currentUser, postCommentLength } =
-    useContext(PostContext);
+export default function PostActions({ lenOfComment, postId, postLikes }) {
+  const { setPostId, setOpenCommentBox, likeOnPost, currentUser } = usePostContext();
   
   const [isLike, setIsLike] = useState(false);
   const [countLikes, setCountLikes] = useState(0);
@@ -43,7 +40,8 @@ export default function PostActions({ postId, postLikes }) {
               onClick={handleOnClick}
             />
           ) : (
-            <FaRegHeart
+            <Heart
+              size={20}
               className="text-xl cursor-pointer"
               onClick={handleOnClick}
             />
@@ -57,17 +55,17 @@ export default function PostActions({ postId, postLikes }) {
           }}
           className="flex gap-2 items-center text-neutral-800"
         >
-          <FaRegCommentDots className="text-xl cursor-pointer" />
-          <span>{postCommentLength && postCommentLength.filter((c)=> c.post === postId).length}</span>
+          <MessageCircleMore size={20} className="text-xl cursor-pointer" />
+          <span>{lenOfComment}</span>
         </div>
 
         <div className=" text-neutral-800">
-          <PiShareFatBold className="text-xl cursor-pointer" />
+          <Share2 size={20} className="text-xl cursor-pointer" />
         </div>
       </div>
 
       <div className="ml-auto text-neutral-800">
-        <MdSaveAlt className="text-xl cursor-pointer" />
+        <Bookmark size={20} className="text-xl cursor-pointer" />
       </div>
     </div>
   );

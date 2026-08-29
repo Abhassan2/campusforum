@@ -1,17 +1,17 @@
 "use client";
-import React, { useContext, useState } from "react";
+import { useState, memo } from "react";
 import Image from "next/image";
-import { PostContext } from "@/app/context/postContext";
+import { usePostContext } from "@/app/context/postContext";
 import ToggleReadBtn from "./toggleReadBtn";
 import ThreeDot from "./threeDot";
 import Loader from "@/ui/Loader";
 
 function CommentCard({ comment }) {
-  const { currentUser, deletingIds } = useContext(PostContext);
+  const { currentUser, deletingIds } = usePostContext();
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="h-fit px-2 py-2 border-b md:border-b-0 border-neutral-300">
+    <div className="h-fit px-2 py-2 border-b md:border-b md:border-r border-neutral-300">
       <div className="flex border-neutral-300 gap-3 pb-2">
         <Image
           src={
@@ -56,4 +56,4 @@ function CommentCard({ comment }) {
   );
 }
 
-export default React.memo(CommentCard);
+export default memo(CommentCard);

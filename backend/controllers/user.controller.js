@@ -17,8 +17,8 @@ export const register = async (req, res) => {
         .json({ success: false, message: "All fields are required" });
     }
 
-    const existingUser = await userModel.findOne({ email });
-    if (existingUser) {
+    const isExistUser = await userModel.findOne({ email });
+    if (isExistUser) {
       return res.json({ success: true, message: "User already exists" });
     }
 

@@ -4,12 +4,10 @@ import {
   deletePost,
   getAllPosts,
   showPost,
-  postingComments,
-  deleteComment,
   likeOnPost,
-  fetchCommentsByPostId,
   uploadingPost,
 } from "../controllers/post.controller.js";
+import { postingComments, fetchCommentsByPostId, deleteComment } from "../controllers/comment.controller.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
 import multer from "multer";

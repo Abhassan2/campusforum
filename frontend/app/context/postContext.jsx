@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useMemo, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import clientServer from "../config/clientServer.js";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -17,15 +17,11 @@ const PostContextProvider = ({ children }) => {
 
   const [openCommentBox, setOpenCommentBox] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [isOpenMenu, setIsOpenMenu] = useState(true);
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [profile, setProfile] = useState({}); // stores users profile info
   const [posts, setPosts] = useState([]);
-  const [userPosts, setUserPosts] = useState([]);
-  const [post, setPost] = useState([]);
   const [comments, setComments] = useState([]);
-  const [postCommentLength, setPostCommentLength] = useState([]);
   const [comment, setComment] = useState("");
   const [deletingIds, setDeletingIds] = useState([]);
 
@@ -254,24 +250,6 @@ const PostContextProvider = ({ children }) => {
     }
   };
 
-  const getUsersProfile = async (username) => {
-    try {
-      setIsLoading(true)
-      const response = await clientServer.get(`/api/user/profile/${username}`);
-
-      if (response.data.success) {
-        setProfile(response.data.profile);
-        setPosts(response.data.posts);
-      } else {
-        toast.error(response.data.message);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false)
-    }
-  };
-
   const toggleFollow = async (profileId) => {
     try {
       const response = await clientServer.put(
@@ -289,20 +267,16 @@ const PostContextProvider = ({ children }) => {
   };
 
   const value = {
-    postCommentLength,
     deletingIds,
 
     router,
     currentUser,
     token,
-    profile,
     postId,
     setPostId,
     isFollowing,
     setIsFollowing,
     posts,
-    post,
-    userPosts,
     comments,
     setComments,
     expanded,
@@ -322,7 +296,6 @@ const PostContextProvider = ({ children }) => {
     deleteComment,
     deletePost,
     likeOnPost,
-    getUsersProfile,
     toggleFollow,
     isOpenMenu,
     setIsOpenMenu,
@@ -335,3 +308,10 @@ const PostContextProvider = ({ children }) => {
 };
 
 export { PostContext, PostContextProvider };
+
+export const usePostContext = () => {
+  const context = useContext(PostContext);
+  return context;
+};
+
+export default usePostContext;
