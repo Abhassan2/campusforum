@@ -63,17 +63,17 @@ function ProfileUi({ userProfile, userPosts }) {
               </h2>
             </div>
             <div className="flex gap-4 md:gap-6 mt-1 cursor-pointer">
-              <span className="flex flex-col text-[14px] text-neutral-700 md:text-lg">
+              <span className="flex flex-col text-[14px] text-neutral-700 md:text-[16px]">
                 <strong className="font-extrabold">{userPosts?.length}</strong>{" "}
                 Posts
               </span>
-              <span className="flex flex-col text-[14px] text-neutral-700 md:text-lg">
+              <span className="flex flex-col text-[14px] text-neutral-700 md:text-[16px]">
                 <strong className="font-extrabold">
                   {userProfile?.followers?.length}
                 </strong>{" "}
                 Followers
               </span>
-              <span className="flex flex-col text-[14px] text-neutral-700 md:text-lg">
+              <span className="flex flex-col text-[14px] text-neutral-700 md:text-[16px]">
                 <strong className="font-extrabold">
                   {userProfile?.following?.length}
                 </strong>{" "}

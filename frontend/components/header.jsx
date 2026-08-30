@@ -7,7 +7,7 @@ export default function Header() {
   const { isOpenMenu, setIsOpenMenu } = usePostContext()
 
   return (
-    <div className="hidden lg:hidden sm:flex justify-between items-center px-4 py-2 border-b border-neutral-300">
+    <div className="hidden md:hidden sm:flex justify-between items-center px-4 py-2 border-b border-neutral-300">
       <Menu
         className="text-[28px]"
         onClick={() => setIsOpenMenu(!isOpenMenu)}

@@ -115,7 +115,6 @@ const PostContextProvider = ({ children }) => {
         },
       });
       if (response.data.success) {
-        await homeFeed();
         toast.success(response.data.message);
       } else {
         console.log("delete post")

@@ -2,29 +2,19 @@ import dynamic from "next/dynamic";
 import { getProfile } from "@/lib/api";
 import ProfileSkeleton from "@/skeleton/profileSkeleton";
 const ProfileUi = dynamic(() => import("@/ui/Profile.jsx"),{
-  loading: () => <ProfileSkeleton />
+  loading: () => <ProfileSkeleton />,
+  ssr: true,
 });
 import { redirect } from "next/navigation";
-import getToken from "@/hooks/getToken";
+import useCookie from "@/hooks/useCookie";
 
 export default async function ProfilePage() {
-  const token = await getToken();
-  
+  const token = await useCookie();
   if (!token) {
     redirect("/login");
   }
 
-  const profileData = await getProfile(token);
-
-  if (!profileData) {
-    return (
-      <p className="flex justify-center items-center h-screen">
-        Failed to load profile
-      </p>
-    );
-  }
-
-  const { profile, userPosts } = profileData;
+  const { profile, userPosts } = await getProfile(token);
   
   return (
     <>

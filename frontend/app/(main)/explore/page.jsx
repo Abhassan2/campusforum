@@ -5,14 +5,13 @@ const UserPost = dynamic(() => import("@/components/CubePost"), {
   loading: () => <UserPostSkeleton />,
   ssr: false,
 });
-import { PostContext } from "@/app/context/postContext";
-import { useContext, useEffect, useState } from "react";
-import { IoSearch } from "react-icons/io5";
-import { FaUniversity } from "react-icons/fa";
+import usePostContext from "@/app/context/postContext";
+import { useEffect, useState } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
+import { Landmark, Search } from "lucide-react";
 
 export default function ExplorePage() {
-  const { getAllPosts, token, posts, isLoading } = useContext(PostContext);
+  const { getAllPosts, token, posts } = usePostContext();
   const [query, setQuery] = useState("");
 
   const handleSearch = () => {
@@ -32,8 +31,8 @@ export default function ExplorePage() {
       {/* explore header */}
       <header className="w-full bg-white sticky top-0 left-0 z-100 flex sm:items-center flex-col gap-5 px-3 pt-2 pb-4 border-b border-neutral-300">
         <div className="flex gap-3 items-center">
-          <FaUniversity className="text-[28px] " />
-          <h1 className="text-[16px] font-semibold">Explore</h1>
+          <Landmark className="size-7 md:size-8 " />
+          <h1 className="text-[18px] md:text-xl font-semibold">Explore</h1>
         </div>
 
         <div className="flex items-center sm:w-[60vw]">
@@ -47,8 +46,8 @@ export default function ExplorePage() {
             className="flex-1 border border-neutral-300 border-r-0 rounded-l-3xl bg-gray-100 
                       placeholder:text-[14px] pl-3 py-2 outline-0"
           />
-          <IoSearch
-            className="text-[42px] text-center border-2 border-blue-700  rounded-r-3xl
+          <Search
+            className="size-10.25 text-center border-2 border-blue-700 rounded-r-3xl
             p-2 bg-blue-700 cursor-pointer text-white"
             onClick={handleSearch}
           />

@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useAuthContext } from "../context/authContext.jsx";
-import Loader from "@/components/Loader.jsx";
 
 export default function Page() {
   const { handleLogin, handleRegister, isLoading } = useAuthContext();
@@ -134,16 +133,13 @@ export default function Page() {
             </div>
 
             {/* Submit button */}
-            {isLoading ? (
-              <Loader size="md" />
-            ) : (
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-500 transition mt-4"
+                disabled={isLoading}
+                className={` w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-500 transition mt-4 ${isLoading ? "animate-pulse cursor-not-allowed opacity-70" : ""} `}
               >
-                {isSignIn ? "Login" : "Register"}
+                {isLoading ? "Checking..." : isSignIn ? "Login" : "Register"}
               </button>
-            )}
           </form>
         </div>
       </div>

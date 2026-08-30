@@ -1,11 +1,11 @@
 "use client";
-import { PostContext } from "@/app/context/postContext";
-import { useContext, useEffect, useState } from "react";
-import { FaUniversity } from "react-icons/fa";
+import usePostContext from "@/app/context/postContext";
+import { useEffect, useState } from "react";
+import { Landmark } from "lucide-react";
 import Loader from "@/components/Loader";
 
 export default function CreatePostPage() {
-  const { uploadPost, isLoading } = useContext(PostContext);
+  const { uploadPost, isLoading } = usePostContext();
 
   const [caption, setCaption] = useState("");
   const [file, setFile] = useState(null);
@@ -24,13 +24,14 @@ export default function CreatePostPage() {
 
     return () => URL.revokeObjectURL(url);
   }, [file]);
+  
   return (
     <div className="pb-10">
       {/* create post header */}
       <header className="flex px-3 py-2 mb-4 border-b border-neutral-300">
-        <div className="flex gap-3 items-center">
-          <FaUniversity className="text-[30px] text-blue-700" />
-          <h1 className="text-[16px] font-semibold">Campus Forum</h1>
+        <div className="flex gap-3 py-1 items-center">
+          <Landmark className="size-8 text-blue-700" />
+          <h1 className="text-[16px] md:text-xl font-semibold">Campus Forum</h1>
         </div>
       </header>
 
