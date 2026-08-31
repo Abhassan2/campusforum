@@ -5,14 +5,14 @@ import { usePostContext } from "@/app/context/postContext";
 import CommentSkeleton from "@/skeleton/commentSkeleton";
 import NoComments from "@/components/noCommentsAvailable";
 import Loader from "../ui/Loader.jsx";
-import { MoveLeft, SendHorizontal } from "lucide-react";
+import { MoveLeft, SendHorizontal, Landmark } from "lucide-react";
 const CommentCard = dynamic(() => import("@/components/commentCard"), {
   loading: () => <CommentSkeleton />,
   ssr: false,
 });
 
 export default function CommentList() {
-    const {
+  const {
     setOpenCommentBox,
     openCommentBox,
     postId,
@@ -26,26 +26,37 @@ export default function CommentList() {
   const [isdoingComment, setIsDoingComment] = useState(false);
 
   const handleComment = async (postId) => {
-    if (comment !== "") {
-      setIsDoingComment(true);
+    if (!comment.trim()) return;
+
+    setIsDoingComment(true);
+
+    try {
       await doComment(postId);
+    } finally {
       setIsDoingComment(false);
     }
   };
 
   useEffect(() => {
-    if (openCommentBox && postId !== null) {
-      fetchCommentsByPostId(postId);
-    }
+    if (!openCommentBox && postId !== null) return;
+
+    fetchCommentsByPostId(postId);
   }, [openCommentBox, postId]);
 
   return (
     <div
       className={`w-full fixed bottom-0 right-0 bg-white shadow-lg transform transition-transform duration-300 ${
         openCommentBox ? "translate-y-0 md:w-100" : "translate-y-full"
-      } h-screen pt-10 md:pt-0 overflow-y-scroll`}
+      } h-screen overflow-y-scroll`}
     >
       <div className="grid">
+        <header className="sm:hidden md:block flex items-center justify-between px-3 py-2 mb-7">
+          <div className="flex gap-3 items-center">
+            <Landmark className="size-8 text-blue-700" />
+            <h1 className="text-[16px] font-semibold">Campusforum</h1>
+          </div>
+        </header>
+
         <div className=" flex items-center mx-3 mt-4">
           <MoveLeft
             size={30}

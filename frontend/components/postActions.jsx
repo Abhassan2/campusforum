@@ -7,27 +7,26 @@ import { Heart, Share2, Bookmark, MessageCircleMore } from "lucide-react";
 export default function PostActions({ lenOfComment, postId, postLikes }) {
   const { setPostId, setOpenCommentBox, likeOnPost, currentUser } = usePostContext();
   
-  const [isLike, setIsLike] = useState(false);
-  const [countLikes, setCountLikes] = useState(0);
+  const [isLike, setIsLike] = useState(postLikes?.includes(currentUser?._id) ?? false);
+  const [countLikes, setCountLikes] = useState(postLikes?.length ?? 0);
+  
+  const handleOnClick = async () => {
+    const newIsLike = !isLike;
 
-  const handleOnClick = () => {
-    if (isLike) {
-      likeOnPost(postId);
-      setIsLike(!isLike);
-      setCountLikes((prev) => (prev -= 1));
-    } else {
-      likeOnPost(postId);
-      setIsLike(!isLike);
-      setCountLikes((prev) => (prev += 1));
+    setIsLike(newIsLike); 
+    setCountLikes((prev) => newIsLike ? prev + 1 : prev - 1);
+    try { 
+      await likeOnPost(postId); 
+    } catch (error) { 
+      setIsLike(!newIsLike); 
+      setCountLikes((prev) => newIsLike ? prev - 1 : prev + 1); 
     }
   };
 
   useEffect(() => {
-    setCountLikes(postLikes?.length);
-    if (postLikes?.includes(currentUser?._id)) {
-      setIsLike(!isLike);
-    }
-  }, [postLikes?.length]);
+    setCountLikes(postLikes?.length ?? 0);
+    setIsLike( postLikes?.includes(currentUser?._id) ?? false );
+  }, [postLikes, currentUser?._id]);
 
   
   return (
@@ -36,13 +35,12 @@ export default function PostActions({ lenOfComment, postId, postLikes }) {
         <div className="flex gap-2 items-center text-neutral-800">
           {isLike ? (
             <FcLike
-              className="text-xl cursor-pointer"
+              className="size-7 cursor-pointer"
               onClick={handleOnClick}
             />
           ) : (
             <Heart
-              size={20}
-              className="text-xl cursor-pointer"
+              className="size-7 cursor-pointer"
               onClick={handleOnClick}
             />
           )}
@@ -55,17 +53,17 @@ export default function PostActions({ lenOfComment, postId, postLikes }) {
           }}
           className="flex gap-2 items-center text-neutral-800"
         >
-          <MessageCircleMore size={20} className="text-xl cursor-pointer" />
+          <MessageCircleMore className="size-7 cursor-pointer" />
           <span>{lenOfComment}</span>
         </div>
 
         <div className=" text-neutral-800">
-          <Share2 size={20} className="text-xl cursor-pointer" />
+          <Share2 className="size-7 cursor-pointer" />
         </div>
       </div>
 
       <div className="ml-auto text-neutral-800">
-        <Bookmark size={20} className="text-xl cursor-pointer" />
+        <Bookmark className="size-7 cursor-pointer" />
       </div>
     </div>
   );

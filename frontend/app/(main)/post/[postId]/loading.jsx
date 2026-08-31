@@ -1,6 +1,6 @@
 import PostCardSkeleton from "@/skeleton/postCardSkeleton";
 
-export default function HomeLoading() {
+export default function PostsLoading() {
   return (
     <div className="flex flex-col">
       {/* Home header skeleton */}

@@ -13,6 +13,24 @@ h1, h2 {
   width: 320px;
 }
 
+.loading-slide {
+  animation: loading-slide 1.2s ease-in-out infinite;
+}
+
+@keyframes loading-slide {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  50% {
+    transform: translateX(120%);
+  }
+
+  100% {
+    transform: translateX(300%);
+  }
+}
+
 @media (max-width: 640px) {
   .Toastify__toast-container {
     top: 20px !important;
