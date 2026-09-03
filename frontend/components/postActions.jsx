@@ -9,7 +9,7 @@ export default function PostActions({ lenOfComment, postId, postLikes }) {
   
   const [isLike, setIsLike] = useState(postLikes?.includes(currentUser?._id) ?? false);
   const [countLikes, setCountLikes] = useState(postLikes?.length ?? 0);
-  const [commentLength, setCommentLength] = useState(lenOfComment ?? 0);
+  const [commentLength] = useState(lenOfComment ?? 0);
   
   const handleOnClick = async () => {
     const newIsLike = !isLike;
@@ -28,6 +28,20 @@ export default function PostActions({ lenOfComment, postId, postLikes }) {
     setCountLikes(postLikes?.length ?? 0);
     setIsLike( postLikes?.includes(currentUser?._id) ?? false );
   }, [postLikes, currentUser?._id]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setOpenCommentBox(false)
+      } else {
+        setPostId(null);
+      }
+    };
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className="flex">

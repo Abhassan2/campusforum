@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const { posts } = await getFeedPosts();
-
+  
   return (
     <>
       <header className="sm:hidden md:block flex items-center justify-between px-3 py-2">
@@ -19,10 +19,12 @@ export default async function HomePage() {
             alt="Campusforum"
             width={80}
             height={80}
-            className="h-10 w-10 object-cover"
+            className="h-9 w-9 object-cover"
             priority
           />
-          <h1 className="text-[16px] font-semibold">Campus<span className="text-blue-700">Forum</span></h1>
+          <h1 className="text-[16px] font-semibold">
+            Campus<span className="text-blue-700">Forum</span>
+          </h1>
         </div>
         <Send size={22} className="md:hidden" />
       </header>

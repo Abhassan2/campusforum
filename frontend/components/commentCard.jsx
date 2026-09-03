@@ -11,43 +11,43 @@ function CommentCard({ comment }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="h-fit px-2 py-2 border-b md:border-b md:border-r border-neutral-300">
+    <div className="h-fit px-2 py-2 border-b md:border-b-0 md:border-t md:border-r-0 border-neutral-300">
       <div className="flex border-neutral-300 gap-3 pb-2">
-        <Image
-          src={
-            comment?.author.profilePic === ""
-              ? "/default_img.avif"
-              : comment?.author.profilePic
-          }
+        <img
+          src={comment?.author?.profilePic || "/default_img.avif"}
           loading="eager"
           width={200}
           height={200}
           alt="Profile"
-          className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 border-2 rounded-full"
+          className="w-8 h-8 sm:w-10 sm:h-10 border border-neutral-300 rounded-full"
         />
         <div className="flex-1 flex gap-2">
-          <h2 className="flex flex-col text-[14px] md:text-base font-medium">
-            {comment?.author.owner.username}
-            <span className="text-[9px] md:text-[12px] font-light">
+          <h2 className="flex flex-col text-[14px] font-medium">
+            {comment?.author?.owner?.username}
+            <span className="text-[9px] font-light">
               {comment?.createdAt.split("T")[0]}
             </span>
           </h2>
-          {comment?.author._id === currentUser?._id && (
-            <span className="text-[14px] bg-gray-200 h-fit rounded-sm px-2 md:text-base font-medium">
+          {comment?.author?._id === currentUser?._id && (
+            <span className="text-[14px] bg-gray-200 h-fit rounded-sm px-2 font-medium">
               author
             </span>
           )}
         </div>
 
-        {comment?.author._id === currentUser?._id &&
-          (deletingIds.includes(comment?._id) ? <Loader size="sm" /> : <ThreeDot CommentId={comment?._id} />)}
+        {comment?.author?._id === currentUser?._id &&
+          (deletingIds.includes(comment?._id) ? (
+            <Loader size="sm" />
+          ) : (
+            <ThreeDot CommentId={comment?._id} />
+          ))}
       </div>
 
-      <p className="text-[14px] md:text-[16px]">
-        {expanded ? comment?.comment : comment?.comment.substring(0, 60)}
+      <p className="text-[14px] md:px-1">
+        {expanded ? comment?.text : comment?.text?.substring(0, 60)}
         {/* <br /> */}
         <ToggleReadBtn
-          textLength={comment?.comment.length}
+          textLength={comment?.text?.length}
           isExpanded={expanded}
           onToggle={() => setExpanded((prev) => !prev)}
         />

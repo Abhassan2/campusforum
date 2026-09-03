@@ -21,7 +21,7 @@ export default function CommentList() {
     setPostId,
     comments,
     fetchCommentsByPostId,
-    doComment,
+    addComment,
   } = usePostContext();
   const [isdoingComment, setIsDoingComment] = useState(false);
 
@@ -31,14 +31,14 @@ export default function CommentList() {
     setIsDoingComment(true);
 
     try {
-      await doComment(postId);
+      await addComment(postId);
     } finally {
       setIsDoingComment(false);
     }
   };
 
   useEffect(() => {
-    if (!openCommentBox && postId !== null) return;
+    if (!openCommentBox && postId === null) return;
 
     fetchCommentsByPostId(postId);
   }, [openCommentBox, postId]);
@@ -50,22 +50,21 @@ export default function CommentList() {
       } h-screen overflow-y-scroll`}
     >
       <div className="grid">
-        <header className="sm:hidden md:block flex items-center justify-between px-3 py-2 mb-7">
+        <header className="sm:hidden flex items-center justify-between px-3 py-2 mb-7">
           <div className="flex gap-3 items-center">
             <Landmark className="size-8 text-blue-700" />
             <h1 className="text-[16px] font-semibold">Campusforum</h1>
           </div>
         </header>
 
-        <div className=" flex items-center mx-3 mt-4">
-          <MoveLeft
-            size={30}
+        <div className="flex items-center mx-3 mt-4">
+          <span
             onClick={() => {
               setOpenCommentBox(false);
               setPostId(null);
             }}
-            className="border border-black/20 rounded-sm p-1 bg-gray-100 active:bg-gray-200"
-          />
+            className="border text-[14px] cursor-pointer border-black/20 rounded-sm p-1 bg-gray-100 active:bg-gray-200"
+          >Back</span>
           <h2 className="mx-25 font-bold">Comments</h2>
         </div>
 

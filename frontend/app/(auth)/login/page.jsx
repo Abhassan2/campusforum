@@ -33,7 +33,7 @@ export default function Page() {
     >
       <div className="absolute inset-0 bg-black/70"></div>
 
-      <div className="relative z-10 w-95 bg-transparent rounded-xl border-2 m-5 overflow-hidden shadow-[0_0_40px_rgba(59,130,246,0.7)]">
+      <div className="relative z-10 w-95 rounded-xl border-2 m-5 overflow-hidden shadow-[0_0_40px_rgba(59,130,246,0.7)]">
         <div className="p-4 text-blue-500 text-center text-3xl font-semibold">
           {isSignIn ? "SignIn" : "Create a new account"}
         </div>

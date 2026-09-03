@@ -1,5 +1,5 @@
 "use client";
-import { House , Search, BadgePlus, UserRound } from "lucide-react";
+import { House , Search, BadgePlus, UserRound, Send } from "lucide-react";
 import NavLink from "./navLink";
 
 export default function BottomNav() {
@@ -9,6 +9,7 @@ export default function BottomNav() {
         <NavLink href="/home" icon={House} label="Home" />
         <NavLink href="/explore" icon={Search} label="Explore" />
         <NavLink href="/create-post" icon={BadgePlus} label="Create Post" />
+        <NavLink href="/messages" icon={Send} label="Messages" />
         <NavLink href="/profile" icon={UserRound} label="Profile" />
       </ul>
     </div>

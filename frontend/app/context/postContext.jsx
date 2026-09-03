@@ -171,7 +171,7 @@ const PostContextProvider = ({ children }) => {
     }
   };
 
-  const doComment = async (postId) => {
+  const addComment = async (postId) => {
     try {
       const response = await clientServer.post(
         `/api/user/post/${postId}/comment`,
@@ -291,7 +291,7 @@ const PostContextProvider = ({ children }) => {
     setIsLoading,
     editProfile,
     getAllPosts,
-    doComment,
+    addComment,
     deleteComment,
     deletePost,
     likeOnPost,

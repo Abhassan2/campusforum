@@ -17,7 +17,7 @@ export default async function Page({ params }) {
         <FaUniversity className="text-[30px] text-blue-700" />
         <h1 className="text-[16px] font-semibold">Campusforum</h1>
       </div>
-      <div className="border-b border-neutral-300 sm:mx-20 lg:flex lg:justify-center">
+      <div className="border border-neutral-300 sm:mx-10 lg:flex lg:justify-center">
         <PostCard post={post} />
       </div>
     </>

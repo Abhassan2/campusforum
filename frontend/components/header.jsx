@@ -24,7 +24,7 @@ export default function Header() {
             alt="Campusforum"
             width={80}
             height={80}
-            className="h-10 w-10 object-cover"
+            className="h-9 w-9 object-cover"
             priority
           />
           <h1 className="text-[16px] font-semibold">

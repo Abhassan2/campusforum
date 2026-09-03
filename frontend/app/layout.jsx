@@ -6,6 +6,7 @@ import { Poppins, Inter } from "next/font/google";
 import { PostContextProvider } from "./context/postContext";
 import { Analytics } from "@vercel/analytics/next";
 import useCookie from "@/hooks/useCookie";
+import getLoggedInToken from "@/lib/getLoggedInToken";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -28,7 +29,6 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const token = await useCookie();
 
   return (
     <html lang="en" className={`${poppins.variable} ${inter.variable}`}>

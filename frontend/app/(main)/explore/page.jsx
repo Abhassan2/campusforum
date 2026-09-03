@@ -7,7 +7,6 @@ const UserPost = dynamic(() => import("@/components/CubePost"), {
 });
 import usePostContext from "@/app/context/postContext";
 import { useEffect, useState } from "react";
-import { VirtuosoGrid } from "react-virtuoso";
 import { Landmark, Search } from "lucide-react";
 
 export default function ExplorePage() {
@@ -53,28 +52,16 @@ export default function ExplorePage() {
           />
         </div>
       </header>
-
       {/* explore body */}
-      <VirtuosoGrid
-        style={{ height: "80vh", width: "100%" }}
-        totalCount={posts?.length}
-        itemContent={(index) => (
-          <UserPost key={index} post={posts[index]} />
-        )}
-        listClassName="grid grid-cols-3 sm:grid-cols-5 gap-0.5 mt-2"
-      />
+      <div
+        className="md:px-10 grid grid-cols-3 sm:grid-cols-5 gap-0.5 mt-2"
+      >
+        {Array.isArray(posts) &&
+          posts.map((post) => (
+            <UserPost key={post?._id} post={post} />
+          ))}
+      </div>
     </div>
   );
 }
 
-{
-  /* <div
-  className="border-gray-200 p-2 border-t-2
-      grid grid-cols-2 gap-1 sm:grid-cols-4 md:grid-cols-5"
->
-  {Array.isArray(postData.posts) &&
-    postData.posts.map((post, index) => (
-      <UserPost key={index} post={post} />
-    ))}
-</div> */
-}

@@ -28,12 +28,12 @@ export default function MainLayout({ children }) {
 
       {/* here can run ads or trendings/suggestions */}
       <div
-        className={`hiddenmd:block ${openCommentBox && "md:w-100"}`}
+        className={`hidden md:block ${openCommentBox && "md:w-100"}`}
       >
         {openCommentBox ? (
           <CommentUi />
         ) : (
-          <div className="w-74 h-screen hidden lg:block">
+          <div className="w-100 h-screen hidden lg:block">
             <InfoPanel
               type="suggestions"
               items={[

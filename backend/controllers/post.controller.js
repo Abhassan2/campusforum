@@ -115,10 +115,8 @@ export const getAllPosts = async (req, res) => {
         },
       })
       .sort({ createdAt: -1 });
-    const postsId = posts.filter((post)=> post._id);
-    const comments = await commentModel.find({}).select("post");
 
-    return res.status(200).json({ success: true, posts, comments });
+    return res.status(200).json({ success: true, posts });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message });

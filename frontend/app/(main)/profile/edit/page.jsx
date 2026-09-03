@@ -27,7 +27,12 @@ export default async function ProfileEditPage() {
         </div>
       </header>
       
-      <ProfileForm profile={profile} />
+      <main>
+        <div className="inline-block mb-4 mx-2 px-2 sm:mt-5 sm:mb-10 sm:mx-5 sm:px-4 py-2 rounded-xl bg-gray-100">
+          <h1>Hi <b>{profile?.owner?.name},</b><br className="sm:hidden" /> you can edit your profile here</h1>
+        </div>
+        <ProfileForm profile={profile} />
+      </main>
       
     </div>
   );

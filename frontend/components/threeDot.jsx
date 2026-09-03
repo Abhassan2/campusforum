@@ -19,14 +19,14 @@ export default function ThreeDot({ postId, CommentId }) {
   return (
     <div className="ml-auto self-center text-neutral-800 relative">
       <BsThreeDotsVertical
-        className="text-[15px] sm:text-[20px] cursor-pointer"
+        className="text-[15px] sm:text-[16px] cursor-pointer"
         onClick={() => setShowTooltip(!showTooltip)}
       />
 
       {showTooltip && (
         <span
           className="absolute -top-4 -left-7 -translate-x-1/2 
-            bg-gray-700 text-white text-xs rounded px-2 py-1"
+            bg-gray-700 text-white text-xs rounded px-2 py-1 cursor-pointer"
           onClick={() => {
             handleDelete();
             setShowTooltip(!showTooltip);

@@ -10,6 +10,9 @@
 !.yarn/releases
 !.yarn/versions
 
+# my folder
+app/(main)/post2/
+
 # testing
 /coverage
 

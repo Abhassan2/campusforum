@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function UserPost({ post }) {
@@ -7,7 +6,7 @@ export default function UserPost({ post }) {
       <Link rel="preload" href={`/post/${post?._id}`}>
         {post?.media[0].type.includes("image") ? (
           <div className="relative">
-            <Image
+            <img
               src={post?.media[0].url}
               loading="eager"
               width={100}

@@ -19,7 +19,7 @@ export const postingComments = async (req, res) => {
     const newComment = new commentModel({
       author: userProfile._id,
       post: postId,
-      comment: comment,
+      text: comment,
     });
     await newComment.save();
 

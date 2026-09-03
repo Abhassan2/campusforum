@@ -9,12 +9,12 @@ import {
   Settings,
   Bookmark,
   MessageSquareMore,
-  Landmark
 } from "lucide-react";
 
 import NavLink from "./navLink.jsx";
 import { useAuthContext } from "@/app/context/authContext.jsx";
 import { usePostContext } from "@/app/context/postContext.jsx";
+import Image from "next/image.js";
 
 export default function Sidebar() {
   const { handleLogout } = useAuthContext();
@@ -25,7 +25,13 @@ export default function Sidebar() {
       {isOpenMenu ? (
         <div className="hidden sm:flex md:hidden flex-col min-h-screen bg-white sm:w-60 py-2 border-r-4 border-neutral-300">
           <div className="flex items-center gap-2 px-4 py-2">
-            <GraduationCap className="text-[30px] text-blue-700" />
+            <img
+              src="/logo.png"
+              alt="Campusforum"
+              width={80}
+              height={80}
+              className="h-9 w-9 object-cover"
+            />
             <h1 className="text-[16px] font-semibold">Campusforum</h1>
           </div>
 
@@ -76,8 +82,14 @@ export default function Sidebar() {
         </div>
       ) : (
         <div className="hidden md:flex md:flex-col min-h-screen bg-white md:w-60 py-5 border-r-4 border-neutral-300">
-          <div className="flex items-center gap-2 px-4 py-2 bg-gray-200 mx-3 rounded-lg">
-            <Landmark className="size-8 text-blue-700" />
+          <div className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-200 mx-3 rounded-lg">
+            <img
+              src="/logo.png"
+              alt="Campusforum"
+              width={80}
+              height={80}
+              className="h-9 w-9 object-cover"
+            />
             <h1 className="text-[16px] font-semibold">Campusforum</h1>
           </div>
 
