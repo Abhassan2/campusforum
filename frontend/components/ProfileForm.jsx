@@ -13,7 +13,7 @@ function ProfileForm({ profile }) {
     username: profile?.owner?.username,
     bio: profile?.bio,
     gender: profile?.gender,
-    dateOfBirth: profile?.dateOfBirth.split("T")[0],
+    dateOfBirth: profile?.dateOfBirth?.split("T")[0],
     profilePic: null,
   });
 

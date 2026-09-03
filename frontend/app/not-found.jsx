@@ -3,7 +3,7 @@ import Link from "next/link";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 
-export default function NotFound() {
+export default function NotFoundPage() {
     const router = useRouter()
 
   return (

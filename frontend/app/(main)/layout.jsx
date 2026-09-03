@@ -1,5 +1,5 @@
 "use client";
-import Header from "@/components/header";
+import Header from "@/components/header.jsx";
 import dynamic from "next/dynamic";
 import InfoPanel from "@/components/infoPanel.jsx";
 import CommentUi from "@/ui/Comment";

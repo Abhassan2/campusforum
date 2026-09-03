@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useAuthContext } from "../context/authContext.jsx";
+import { useAuthContext } from "../../context/authContext.jsx";
 
 export default function Page() {
   const { handleLogin, handleRegister, isLoading } = useAuthContext();

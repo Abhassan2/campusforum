@@ -4,15 +4,15 @@ import Image from "next/image";
 const PostCardHeader = dynamic(() => import("./postCardHeader"));
 const PostActions = dynamic(() => import("./postActions"));
 const ToggleReadBtn = dynamic(() => import("./toggleReadBtn"));
-import { memo, useContext, useEffect, useRef, useState } from "react";
-import { PostContext } from "@/app/context/postContext";
+import { memo, useEffect, useRef, useState } from "react";
+import usePostContext from "@/app/context/postContext";
 import { VolumeX, Volume2 } from "lucide-react";
 
 function PostCard({ post }) {
   const {
     expanded,
     setExpanded,
-  } = useContext(PostContext);
+  } = usePostContext();
   const videoRef = useRef();
   const [isMute, setIsMute] = useState(true);
 

@@ -6,7 +6,7 @@ import UserPost from "@/components/CubePost.jsx";
 import { useContext, useEffect, useState } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
 import LinkButton from "@/ui/LinkButton";
-import NoPosts from "@/components/noPostsAvailable";
+import NoPosts from "@/components/NoPosts";
 import NavLink from "@/components/navLink";
 import { LuSettings } from "react-icons/lu";
 import ProfileSkeleton from "@/skeleton/profileSkeleton";

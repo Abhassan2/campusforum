@@ -17,6 +17,23 @@ h1, h2 {
   animation: loading-slide 1.2s ease-in-out infinite;
 }
 
+.loading-screen {
+  padding-top: max(2rem, env(safe-area-inset-top));
+  padding-bottom: max(2rem, env(safe-area-inset-bottom));
+}
+
+.loading-panel {
+  padding-inline: clamp(0.25rem, 3vw, 1rem);
+}
+
+.loading-logo {
+  max-width: min(8rem, 25vw);
+}
+
+.loading-track {
+  max-width: 22rem;
+}
+
 @keyframes loading-slide {
   0% {
     transform: translateX(-120%);

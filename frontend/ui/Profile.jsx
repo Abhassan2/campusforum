@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import UserPostSkeleton from "@/skeleton/CubePostSkeleton.jsx";
@@ -8,7 +8,7 @@ import ButtonSkeleton from "@/skeleton/ButtonSkeleton";
 import { Settings } from "lucide-react";
 import usePostContext from "@/app/context/postContext.jsx";
 import NavLink from "@/components/navLink";
-import NoPosts from "@/components/noPostsAvailable";
+import NoPosts from "@/components/NoPosts.jsx";
 
 const UserPost = dynamic(() => import("@/components/CubePost.jsx"), {
   loading: () => <UserPostSkeleton />,
@@ -25,7 +25,8 @@ const FollowBtn = dynamic(() => import("@/ui/FollowBtn.jsx"), {
 
 
 function ProfileUi({ userProfile, userPosts }) {
-  const { currentUser } = usePostContext();
+  const { currentUser, isFollowing } = usePostContext();
+  const [countFollower, setCountFollower] = useState(userProfile?.followers?.length ?? 0);
 
   return (
     <div className="lg:px-4">
@@ -69,7 +70,7 @@ function ProfileUi({ userProfile, userPosts }) {
               </span>
               <span className="flex flex-col text-[14px] text-neutral-700 md:text-[16px]">
                 <strong className="font-extrabold">
-                  {userProfile?.followers?.length}
+                  {countFollower}
                 </strong>{" "}
                 Followers
               </span>
@@ -101,14 +102,14 @@ function ProfileUi({ userProfile, userPosts }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 sm:grid-cols-5 gap-0.5 mt-2 ">
         {/* Posts */}
         {Array.isArray(userPosts) && userPosts.length === 0 ? (
           <NoPosts />
         ) : (
-          userPosts?.map((post) => <UserPost key={post?._id} post={post} />)
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-0.5 mt-2 ">
+              {userPosts?.map((post) => <UserPost key={post?._id} post={post} />)}
+          </div>
         )}
-      </div>
     </div>
   );
 }

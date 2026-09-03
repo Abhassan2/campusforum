@@ -2,19 +2,20 @@ import React, { useCallback, useState, useEffect } from "react";
 import usePostContext from "@/app/context/postContext";
 
 function FollowBtn({ userProfile}) {
-  const { currentUser, toggleFollow } = usePostContext();
+  const { isFollowing, setIsFollowing, currentUser, toggleFollow } = usePostContext();
 
-  const [isFollowing, setIsFollowing] = useState(
-    userProfile?.followers?.includes(currentUser?._id) ?? false,
-  );
+  // const [isFollowing, setIsFollowing] = useState(
+  //   userProfile?.followers?.includes(currentUser?._id) ?? false,
+  // );
 
   useEffect(() => {
     setIsFollowing(userProfile?.followers?.includes(currentUser?._id) ?? false);
-  }, [userProfile?.followers, currentUser?._id]);
+  }, [userProfile, currentUser?._id]);
 
-  const handleONClick = useCallback(() => {
+  const handleONClick = useCallback(async() => {
     setIsFollowing((prev) => !prev);
-    toggleFollow(userProfile._id);
+
+    await toggleFollow(userProfile._id);
   }, [toggleFollow, userProfile._id]);
 
   return (

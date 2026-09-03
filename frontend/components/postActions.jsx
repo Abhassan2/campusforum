@@ -9,6 +9,7 @@ export default function PostActions({ lenOfComment, postId, postLikes }) {
   
   const [isLike, setIsLike] = useState(postLikes?.includes(currentUser?._id) ?? false);
   const [countLikes, setCountLikes] = useState(postLikes?.length ?? 0);
+  const [commentLength, setCommentLength] = useState(lenOfComment ?? 0);
   
   const handleOnClick = async () => {
     const newIsLike = !isLike;
@@ -28,19 +29,18 @@ export default function PostActions({ lenOfComment, postId, postLikes }) {
     setIsLike( postLikes?.includes(currentUser?._id) ?? false );
   }, [postLikes, currentUser?._id]);
 
-  
   return (
     <div className="flex">
       <div className="w-1/2 flex justify-between">
         <div className="flex gap-2 items-center text-neutral-800">
           {isLike ? (
             <FcLike
-              className="size-7 cursor-pointer"
+              className="size-6.5 cursor-pointer"
               onClick={handleOnClick}
             />
           ) : (
             <Heart
-              className="size-7 cursor-pointer"
+              className="size-6.5 cursor-pointer"
               onClick={handleOnClick}
             />
           )}
@@ -53,17 +53,17 @@ export default function PostActions({ lenOfComment, postId, postLikes }) {
           }}
           className="flex gap-2 items-center text-neutral-800"
         >
-          <MessageCircleMore className="size-7 cursor-pointer" />
-          <span>{lenOfComment}</span>
+          <MessageCircleMore className="size-6.5 cursor-pointer" />
+          <span>{commentLength}</span>
         </div>
 
         <div className=" text-neutral-800">
-          <Share2 className="size-7 cursor-pointer" />
+          <Share2 className="size-6.5 cursor-pointer" />
         </div>
       </div>
 
       <div className="ml-auto text-neutral-800">
-        <Bookmark className="size-7 cursor-pointer" />
+        <Bookmark className="size-6.5 cursor-pointer" />
       </div>
     </div>
   );
