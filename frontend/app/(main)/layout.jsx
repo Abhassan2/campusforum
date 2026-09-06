@@ -33,7 +33,7 @@ export default function MainLayout({ children }) {
         {openCommentBox ? (
           <CommentUi />
         ) : (
-          <div className="w-100 h-screen hidden lg:block">
+          <div className="w-100 min-w-70 h-screen hidden lg:block overflow-x-hidden">
             <InfoPanel
               type="suggestions"
               items={[

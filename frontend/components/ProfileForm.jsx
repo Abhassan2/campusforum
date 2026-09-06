@@ -62,9 +62,9 @@ function ProfileForm({ profile }) {
         className="max-w-150 mx-auto px-4 py-2 bg-white flex flex-col gap-4"
         encType="multipart/form-data"
       >
-        <div className="flex flex-col justify-between gap-5 md:flex-row">
+        <div className="flex flex-col justify-between gap-5 sm:flex-row">
           {/* Profile Picture Preview */}
-          <div className="relative max-w-35 w-30 mx-auto md:mx-0 rounded-full flex justify-center bg-[#000000d4]">
+          <div className="relative max-w-35 w-30 mx-auto sm:mx-0 rounded-full flex justify-center bg-[#000000d4]">
             <SquarePen
               className="size-5 bg-white rounded-sm absolute bottom-1.5 right-3 cursor-pointer"
               onClick={() =>
@@ -96,7 +96,7 @@ function ProfileForm({ profile }) {
           </div>
         </div>
 
-        <div className="flex flex-col justify-between gap-x-2 gap-y-4 md:flex-row">
+        <div className="flex flex-col justify-between gap-x-2 gap-y-4 sm:flex-row">
           {/* Name */}
           <div className="flex-1 flex flex-col">
             <label className="text-[14px]">Name</label>
