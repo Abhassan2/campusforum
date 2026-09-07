@@ -1,249 +1,188 @@
-import {
-  GraduationCap,
-  User,
-  Mail,
-  Lock,
-  ArrowRight,
-} from "lucide-react";
+"use client";
+import { useState } from "react";
+import { Mail, Lock, User, ArrowRight } from "lucide-react";
+import { useAuthContext } from "@/app/context/authContext";
 
-export default function Signup() {
+export default function GlassAuthForm() {
+  const { handleRegister, handleLogin, isLoading } = useAuthContext();
+  const [mode, setMode] = useState("signin");
+  const [agree, setAgree] = useState(true);
+
+  const [form, setForm] = useState({
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const update = (field) => (e) =>
+    setForm((f) => ({ ...f, [field]: e.target.value }));
+
+  const isSignIn = mode === "signin";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if(isSignIn){
+      await handleLogin(form);
+    }else{
+      await handleRegister(form);
+    }
+    setForm({
+      name: "",
+      username: "",
+      email: "",
+      password: "",
+    });
+  };
+  
   return (
-    <main
-      className="relative min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage: "url('/campus-bg.jpg')",
-      }}
-    >
-      {/* dark overlay */}
-      <div className="absolute inset-0 bg-black/35" />
+    <div className="relative min-h-screen w-full overflow-hidden bg-slate-950 flex items-center justify-center p-6">
 
-      {/* Signup wrapper */}
-      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-8">
+      {/* Card */}
+      <div className="relative z-10 w-full max-w-sm rounded-3xl border border-white/15 bg-white/10 p-8 shadow-[0_8px_32px_rgba(0,0,0,0.37)] backdrop-blur-2xl">
+        <div className="mb-6">
+          <div className="flex gap-4">
+            <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br from-indigo-500 to-orange-400 shadow-lg shadow-indigo-500/20">
+              <img src="/campus.png" alt="logo" />
+            </div>
+            <h1 className="text-2xl font-medium text-white">
+              {isSignIn ? "Welcome back" : "Create your account"}
+              <p className="text-sm">on campus <b className="text-orange-400">forum</b></p>
+            </h1>
+          </div>
+        </div>
 
-        {/* Glass Card */}
-        <div
-          className="
-            w-full max-w-md
-            rounded-3xl
-            border border-white/30
-            bg-linear-to-br
-            from-purple-500/25
-            via-blue-500/20
-            to-pink-500/25
-            p-6 sm:p-8
-            shadow-[0_25px_80px_rgba(80,40,180,0.35)]
-            backdrop-blur-2xl
-          "
-        >
+        {/* Mode toggle */}
+        <div className="mb-6 grid grid-cols-2 rounded-xl border border-white/15 bg-white/5 p-1 text-sm">
+          <button
+            type="button"
+            onClick={() => setMode("signin")}
+            className={`rounded-lg py-1.5 font-medium transition ${
+              isSignIn ? "bg-white/15 text-white" : "text-slate-300 hover:text-white"
+            }`}
+          >
+            Sign in
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("signup")}
+            className={`rounded-lg py-1.5 font-medium transition ${
+              !isSignIn ? "bg-white/15 text-white" : "text-slate-300 hover:text-white"
+            }`}
+          >
+            Sign up
+          </button>
+        </div>
 
-          {/* Header */}
-          <div className="mb-7 text-center">
-            <div
-              className="
-                mx-auto mb-4 flex h-16 w-16
-                items-center justify-center
-                rounded-2xl
-                border border-white/30
-                bg-linear-to-br
-                from-cyan-400/30
-                to-purple-500/30
-              "
-            >
-              <GraduationCap
-                size={34}
-                className="text-white"
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {!isSignIn && (
+            <>
+              <div>
+                <label htmlFor="name" className="mb-1.5 block text-xs text-slate-300">
+                  Name
+                </label>
+                <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 transition focus-within:border-indigo-300/60 focus-within:bg-white/10">
+                  <User className="h-4 w-4 shrink-0 text-slate-300" />
+                  <input
+                    id="name"
+                    type="text"
+                    required
+                    value={form.name}
+                    onChange={update("name")}
+                    placeholder="Enter name"
+                    className="w-full bg-transparent text-sm text-white placeholder-slate-400 outline-none"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="name" className="mb-1.5 block text-xs text-slate-300">
+                  Username
+                </label>
+                <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 transition focus-within:border-indigo-300/60 focus-within:bg-white/10">
+                  <User className="h-4 w-4 shrink-0 text-slate-300" />
+                  <input
+                    id="username"
+                    type="text"
+                    required
+                    value={form.username}
+                    onChange={update("username")}
+                    placeholder="Enter username"
+                    className="w-full bg-transparent text-sm text-white placeholder-slate-400 outline-none"
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
+          <div>
+            <label htmlFor="email" className="mb-1.5 block text-xs text-slate-300">
+              Email
+            </label>
+            <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 transition focus-within:border-indigo-300/60 focus-within:bg-white/10">
+              <Mail className="h-4 w-4 shrink-0 text-slate-300" />
+              <input
+                id="email"
+                type="email"
+                required
+                value={form.email}
+                onChange={update("email")}
+                placeholder="Enter email"
+                className="w-full bg-transparent text-sm text-white placeholder-slate-400 outline-none"
               />
             </div>
-
-            <h1 className="text-3xl font-bold text-white">
-              Create Account
-            </h1>
-
-            <p className="mt-2 text-sm text-white/70">
-              Start your journey with us
-            </p>
           </div>
 
-          {/* Form */}
-          <form className="space-y-4">
-
-            {/* Name */}
-            <div className="relative">
-              <User
-                size={20}
-                className="
-                  absolute left-4 top-1/2
-                  -translate-y-1/2
-                  text-white/70
-                "
-              />
-
-              <input
-                type="text"
-                placeholder="Name"
-                required
-                className="
-                  h-14 w-full rounded-xl
-                  border border-white/25
-                  bg-white/10
-                  pl-12 pr-4
-                  text-white
-                  outline-none
-                  placeholder:text-white/55
-                  backdrop-blur-md
-                  transition
-                  focus:border-cyan-300/60
-                  focus:bg-white/15
-                  focus:ring-2
-                  focus:ring-cyan-300/20
-                "
-              />
+          <div>
+            <div className="mb-1.5 flex items-center justify-between">
+              <label htmlFor="password" className="block text-xs text-slate-300">
+                Password
+              </label>
             </div>
-
-            {/* Email */}
-            <div className="relative">
-              <Mail
-                size={20}
-                className="
-                  absolute left-4 top-1/2
-                  -translate-y-1/2
-                  text-white/70
-                "
-              />
-
+            <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 transition focus-within:border-indigo-300/60 focus-within:bg-white/10">
+              <Lock className="h-4 w-4 shrink-0 text-slate-300" />
               <input
-                type="email"
-                placeholder="Email Address"
-                required
-                className="
-                  h-14 w-full rounded-xl
-                  border border-white/25
-                  bg-white/10
-                  pl-12 pr-4
-                  text-white
-                  outline-none
-                  placeholder:text-white/55
-                  backdrop-blur-md
-                  transition
-                  focus:border-cyan-300/60
-                  focus:bg-white/15
-                  focus:ring-2
-                  focus:ring-cyan-300/20
-                "
-              />
-            </div>
-
-            {/* Password */}
-            <div className="relative">
-              <Lock
-                size={20}
-                className="
-                  absolute left-4 top-1/2
-                  -translate-y-1/2
-                  text-white/70
-                "
-              />
-
-              <input
+                id="password"
                 type="password"
-                placeholder="Password"
                 required
-                className="
-                  h-14 w-full rounded-xl
-                  border border-white/25
-                  bg-white/10
-                  pl-12 pr-4
-                  text-white
-                  outline-none
-                  placeholder:text-white/55
-                  backdrop-blur-md
-                  transition
-                  focus:border-cyan-300/60
-                  focus:bg-white/15
-                  focus:ring-2
-                  focus:ring-cyan-300/20
-                "
+                value={form.password}
+                onChange={update("password")}
+                placeholder={isSignIn ? "Enter your password" : "Create a password"}
+                className="w-full bg-transparent text-sm text-white placeholder-slate-400 outline-none"
               />
             </div>
+          </div>
 
-            {/* Terms */}
-            {/* <label className="flex cursor-pointer items-start gap-3 pt-1">
+          {isSignIn ? (
+            <label className="flex select-none items-center gap-2 pt-1 text-xs text-slate-300">
+              <a href="#" className="text-xs text-indigo-200 hover:text-indigo-100">
+                Forgot Password?
+              </a>
+            </label>
+          ) : (
+            <label className="flex select-none items-start gap-2 pt-1 text-xs text-slate-300">
               <input
                 type="checkbox"
-                className="
-                  mt-1 h-4 w-4
-                  accent-purple-500
-                "
+                required
+                checked={agree}
+                onChange={(e) => setAgree(e.target.checked)}
+                className="mt-0.5 h-3.5 w-3.5 rounded border-white/30 bg-white/10 accent-indigo-400"
               />
+              I agree to the Terms of Service and Privacy Policy
+            </label>
+          )}
 
-              <span className="text-sm text-white/70">
-                I agree to the{" "}
-                <span className="text-cyan-300 hover:underline">
-                  Terms & Conditions
-                </span>
-              </span>
-            </label> */}
-            <div className="flex justify-between px-1 text-sm">
-              <label className="flex gap-2">
-                <input type="checkbox" />
-                <span>Remember me</span>
-              </label>
-
-              <a href="#forgot" className="text-[#987ffc] hover:underline">Forgot password?</a>
-            </div>
-
-            {/* Signup Button */}
-            <button
-              type="submit"
-              className="
-                group mt-2 flex h-14 w-full
-                items-center justify-center gap-3
-                rounded-xl
-                bg-linear-to-r
-                from-cyan-400
-                via-blue-500
-                to-purple-600
-                font-semibold text-white
-                shadow-lg
-                shadow-purple-500/30
-                transition-all
-                hover:scale-[1.02]
-                hover:shadow-purple-500/50
-                active:scale-[0.99]
-              "
-            >
-              Create Account
-
-              <ArrowRight
-                size={21}
-                className="
-                  transition-transform
-                  group-hover:translate-x-1
-                "
-              />
-            </button>
-          </form>
-
-          {/* Login */}
-          <p className="mt-7 text-center text-sm text-white/65">
-            Already have an account?{" "}
-
-            <button
-              type="button"
-              className="
-                font-medium
-                text-cyan-300
-                transition
-                hover:text-cyan-200
-                hover:underline
-              "
-            >
-              Login
-            </button>
-          </p>
-
-        </div>
+          <button
+            type="submit"
+            className={`group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-indigo-500 to-orange-400 py-2.5 text-sm font-medium text-white transition hover:brightness-110 active:brightness-95 ${isLoading && "animate-pulse bg-gray-400"}`}
+          >
+            {isLoading ? (isSignIn ? "Signed in" : "Account created") : isSignIn ? "Sign in" : "Create account"}
+            {!isLoading && (
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            )}
+          </button>
+        </form>
       </div>
-    </main>
+    </div>
   );
 }

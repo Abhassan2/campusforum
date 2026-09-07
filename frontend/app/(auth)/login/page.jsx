@@ -1,147 +1,187 @@
 "use client";
 import { useState } from "react";
-import { useAuthContext } from "../../context/authContext.jsx";
+import { Mail, Lock, User, ArrowRight } from "lucide-react";
+import { useAuthContext } from "@/app/context/authContext.jsx";
 
-export default function Page() {
-  const { handleLogin, handleRegister, isLoading } = useAuthContext();
+export default function GlassAuthForm() {
+  const { handleRegister, handleLogin, isLoading } = useAuthContext();
+  const [mode, setMode] = useState("signin");
+  const [agree, setAgree] = useState(true);
 
-  const [isSignIn, setIsSignIn] = useState(true);
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState({
     name: "",
     username: "",
     email: "",
     password: "",
   });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const update = (field) => (e) =>
+    setForm((f) => ({ ...f, [field]: e.target.value }));
+
+  const isSignIn = mode === "signin";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isSignIn) {
-      handleLogin(formData);
-    } else {
-      handleRegister(formData);
+
+    if(isSignIn){
+      await handleLogin(form);
+    }else{
+      await handleRegister(form);
     }
+    setForm({
+      name: "",
+      username: "",
+      email: "",
+      password: "",
+    });
   };
-
+  
   return (
-    <div
-      className="relative w-full h-screen bg-cover bg-center flex justify-center items-center"
-      style={{ backgroundImage: "url('/bg_campus_img.jpg')" }}
-    >
-      <div className="absolute inset-0 bg-black/70"></div>
+    <div className="relative min-h-screen w-full overflow-hidden bg-slate-950 flex items-center justify-center p-6">
 
-      <div className="relative z-10 w-95 rounded-xl border-2 m-5 overflow-hidden shadow-[0_0_40px_rgba(59,130,246,0.7)]">
-        <div className="p-4 text-blue-500 text-center text-3xl font-semibold">
-          {isSignIn ? "SignIn" : "Create a new account"}
+      {/* Card */}
+      <div className="relative z-10 w-full max-w-sm rounded-3xl border border-white/15 bg-white/10 p-8 shadow-[0_8px_32px_rgba(0,0,0,0.37)] backdrop-blur-2xl">
+        <div className="mb-6">
+          <div className="flex gap-4">
+            <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br from-indigo-500 to-orange-400 shadow-lg shadow-indigo-500/20">
+              <img src="/campus.png" alt="logo" />
+            </div>
+            <h1 className="text-2xl font-medium text-white">
+              {isSignIn ? "Welcome back" : "Create your account"}
+              <p className="text-sm">on campus <b className="text-orange-400">forum</b></p>
+            </h1>
+          </div>
         </div>
 
-        {/* Form */}
-        <div className="w-full px-4 pb-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Show Name only when Register */}
-            {!isSignIn && (
-              <>
-                <div className="relative mb-6">
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder=" "
-                    required
-                    className="w-full bg-transparent border-b border-gray-300 text-white px-2 py-3 outline-none focus:border-blue-500 peer"
-                  />
-                  <label className="absolute left-2 top-0 -translate-y-2/3 text-white text-sm transition-all peer-placeholder-shown:top-[70%] peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm">
-                    Name
-                  </label>
-                </div>
-                <div className="relative mb-6">
-                  <input
-                    type="text"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    placeholder=" "
-                    required
-                    className="w-full bg-transparent border-b border-gray-300 text-white px-2 py-3 outline-none focus:border-blue-500 peer"
-                  />
-                  <label className="absolute left-2 top-0 -translate-y-1/2 text-white text-sm transition-all peer-placeholder-shown:top-[70%] peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm">
-                    Username
-                  </label>
-                </div>
-              </>
-            )}
+        {/* Mode toggle */}
+        <div className="mb-6 grid grid-cols-2 rounded-xl border border-white/15 bg-white/5 p-1 text-sm">
+          <button
+            type="button"
+            onClick={() => setMode("signin")}
+            className={`rounded-lg py-1.5 font-medium transition ${
+              isSignIn ? "bg-white/15 text-white" : "text-slate-300 hover:text-white"
+            }`}
+          >
+            Sign in
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("signup")}
+            className={`rounded-lg py-1.5 font-medium transition ${
+              !isSignIn ? "bg-white/15 text-white" : "text-slate-300 hover:text-white"
+            }`}
+          >
+            Sign up
+          </button>
+        </div>
 
-            <div className="relative mb-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {!isSignIn && (
+            <>
+              <div>
+                <label htmlFor="name" className="mb-1.5 block text-xs text-slate-300">
+                  Name
+                </label>
+                <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 transition focus-within:border-indigo-300/60 focus-within:bg-white/10">
+                  <User className="h-4 w-4 shrink-0 text-slate-300" />
+                  <input
+                    id="name"
+                    type="text"
+                    required
+                    value={form.name}
+                    onChange={update("name")}
+                    placeholder="Enter name"
+                    className="w-full bg-transparent text-sm text-white placeholder-slate-400 outline-none"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="name" className="mb-1.5 block text-xs text-slate-300">
+                  Username
+                </label>
+                <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 transition focus-within:border-indigo-300/60 focus-within:bg-white/10">
+                  <User className="h-4 w-4 shrink-0 text-slate-300" />
+                  <input
+                    id="username"
+                    type="text"
+                    required
+                    value={form.username}
+                    onChange={update("username")}
+                    placeholder="Enter username"
+                    className="w-full bg-transparent text-sm text-white placeholder-slate-400 outline-none"
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
+          <div>
+            <label htmlFor="email" className="mb-1.5 block text-xs text-slate-300">
+              Email
+            </label>
+            <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 transition focus-within:border-indigo-300/60 focus-within:bg-white/10">
+              <Mail className="h-4 w-4 shrink-0 text-slate-300" />
               <input
+                id="email"
                 type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder=" "
                 required
-                className="w-full bg-transparent border-b border-gray-300 text-white px-2 py-3 outline-none focus:border-blue-500 peer"
+                value={form.email}
+                onChange={update("email")}
+                placeholder="Enter email"
+                className="w-full bg-transparent text-sm text-white placeholder-slate-400 outline-none"
               />
-              <label className="absolute left-2 top-0 -translate-y-1/2 text-white text-sm transition-all peer-placeholder-shown:top-[70%] peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm">
-                Email
-              </label>
             </div>
+          </div>
 
-            <div className="relative mb-6">
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder=""
-                required
-                className="w-full bg-transparent border-b border-gray-300 text-white px-2 py-3 outline-none focus:border-blue-500 peer"
-              />
-              <label className="absolute left-2 top-0 -translate-y-1/2 text-white text-sm transition-all peer-placeholder-shown:top-[70%] peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm">
+          <div>
+            <div className="mb-1.5 flex items-center justify-between">
+              <label htmlFor="password" className="block text-xs text-slate-300">
                 Password
               </label>
             </div>
-
-            {/* Footer */}
-            <div className="flex text-white text-xs pl-2">
-              {isSignIn ? (
-                <p>Don't have an account</p>
-              ) : (
-                <p>I have already an account</p>
-              )}
-
-              {isSignIn ? (
-                <button
-                  type="button"
-                  onClick={() => setIsSignIn(false)}
-                  className="ml-2 text-blue-400 font-semibold underline hover:no-underline"
-                >
-                  Create
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setIsSignIn(true)}
-                  className="ml-2 text-blue-400 font-semibold underline hover:no-underline"
-                >
-                  SignIn
-                </button>
-              )}
+            <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 transition focus-within:border-indigo-300/60 focus-within:bg-white/10">
+              <Lock className="h-4 w-4 shrink-0 text-slate-300" />
+              <input
+                id="password"
+                type="password"
+                required
+                value={form.password}
+                onChange={update("password")}
+                placeholder={isSignIn ? "Enter your password" : "Create a password"}
+                className="w-full bg-transparent text-sm text-white placeholder-slate-400 outline-none"
+              />
             </div>
+          </div>
 
-            {/* Submit button */}
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={` w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-500 transition mt-4 ${isLoading ? "animate-pulse cursor-not-allowed opacity-70" : ""} `}
-              >
-                {isLoading ? "Checking..." : isSignIn ? "Login" : "Register"}
-              </button>
-          </form>
-        </div>
+          {isSignIn ? (
+            <label className="flex select-none items-center gap-2 pt-1 text-xs text-slate-300">
+              <a href="#" className="text-xs text-indigo-200 hover:text-indigo-100">
+                Forgot Password?
+              </a>
+            </label>
+          ) : (
+            <label className="flex select-none items-start gap-2 pt-1 text-xs text-slate-300">
+              <input
+                type="checkbox"
+                required
+                checked={agree}
+                onChange={(e) => setAgree(e.target.checked)}
+                className="mt-0.5 h-3.5 w-3.5 rounded border-white/30 bg-white/10 accent-indigo-400"
+              />
+              I agree to the Terms of Service and Privacy Policy
+            </label>
+          )}
+
+          <button
+            type="submit"
+            className={`group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-indigo-500 to-orange-400 py-2.5 text-sm font-medium text-white transition hover:brightness-110 active:brightness-95 ${isLoading && "animate-pulse bg-gray-400"}`}
+          >
+            {isLoading ? (isSignIn ? "Signed in" : "Account created") : isSignIn ? "Sign in" : "Create account"}
+            {!isLoading && (
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            )}
+          </button>
+        </form>
       </div>
     </div>
   );

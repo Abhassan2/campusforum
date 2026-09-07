@@ -1,6 +1,6 @@
 "use client";
 import { memo, useState, useEffect } from "react";
-import { SquarePen } from "lucide-react";
+import { SquarePen, ArrowLeft  } from "lucide-react";
 import usePostContext from "@/app/context/postContext";
 import Loader from "@/components/Loader.jsx";
 
@@ -65,17 +65,21 @@ function ProfileForm({ profile }) {
         <div className="flex flex-col justify-between gap-5 sm:flex-row">
           {/* Profile Picture Preview */}
           <div className="relative max-w-35 w-30 mx-auto sm:mx-0 rounded-full flex justify-center bg-[#000000d4]">
+            <img
+              src={previewUrl}
+              alt="preview"
+              className="max-w-35 max-h-35 w-30 h-30 object-fill rounded-full border-3 border-indigo-400"
+            />
             <SquarePen
               className="size-5 bg-white rounded-sm absolute bottom-1.5 right-3 cursor-pointer"
               onClick={() =>
                 setPreviewUrl((prev) => (prev = "/default_img.avif"))
               }
             />
-            <img
-              src={previewUrl}
-              alt="preview"
-              className="max-w-35 max-h-35 w-30 h-30 object-fill rounded-full border-3 border-indigo-400"
-            />
+            <span className="absolute bottom-0 -right-23 text-[11px] flex justify-center items-center bg-gray-200 p-1 rounded animate-bounce">
+              <ArrowLeft size={15} />
+              remove profile
+            </span>
           </div>
 
           {/* Profile Picture */}
