@@ -8,7 +8,7 @@ const profileSchema = new mongoose.Schema({
 
   profilePic: {
     type: String,
-    default: "",
+    default: "/default-ProfileImg.png",
   },
 
   bio: {

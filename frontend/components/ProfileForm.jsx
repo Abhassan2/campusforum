@@ -1,13 +1,15 @@
 "use client";
 import { memo, useState, useEffect } from "react";
-import { SquarePen, ArrowLeft  } from "lucide-react";
+import { X, ArrowLeft  } from "lucide-react";
 import usePostContext from "@/app/context/postContext";
 import Loader from "@/components/Loader.jsx";
+import { editProfile } from '@/lib/api';
 
 function ProfileForm({ profile }) {
-  const { isLoading, editProfile } = usePostContext();
+  const { token } = usePostContext();
+  const [loading, setLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(profile?.profilePic);
-
+  
   const [profileData, setProfileData] = useState({
     name: profile?.owner?.name,
     username: profile?.owner?.username,
@@ -16,7 +18,7 @@ function ProfileForm({ profile }) {
     dateOfBirth: profile?.dateOfBirth?.split("T")[0],
     profilePic: null,
   });
-
+  
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setProfileData((prev) => ({
@@ -39,13 +41,19 @@ function ProfileForm({ profile }) {
     if (profileData.profilePic) {
       formData.append("profilePic", profileData.profilePic);
     }
-    if (previewUrl === "/default_img.avif") {
+
+    if (!profileData.profilePic) {
       formData.append("profilePic", previewUrl);
     }
 
-    editProfile(formData);
+    try {
+      setLoading(true);
+      editProfile(token, formData);
+    } finally {
+      setLoading(false);
+    }
   };
-
+  
   useEffect(() => {
     if (!profileData?.profilePic) return;
 
@@ -55,6 +63,14 @@ function ProfileForm({ profile }) {
     return () => URL.revokeObjectURL(url);
   }, [profileData?.profilePic]);
   
+  const handleRemove = () => {
+    setPreviewUrl((prev) => (prev = '/default-ProfileImg.png'));
+    setProfileData((prev)=>({
+      ...prev,
+      ["profilePic"]: null
+    }));
+  }
+
   return (
     <>
       <form
@@ -70,16 +86,12 @@ function ProfileForm({ profile }) {
               alt="preview"
               className="max-w-35 max-h-35 w-30 h-30 object-fill rounded-full border-3 border-indigo-400"
             />
-            <SquarePen
-              className="size-5 bg-white rounded-sm absolute bottom-1.5 right-3 cursor-pointer"
-              onClick={() =>
-                setPreviewUrl((prev) => (prev = "/default_img.avif"))
-              }
-            />
-            <span className="absolute bottom-0 -right-23 text-[11px] flex justify-center items-center bg-gray-200 p-1 rounded animate-bounce">
-              <ArrowLeft size={15} />
-              remove profile
-            </span>
+            {previewUrl !== '/default-ProfileImg.png' && (
+              <X
+                className="size-5 rounded-sm absolute top-0 -right-1 cursor-pointer"
+                onClick={handleRemove}
+              />
+            )}
           </div>
 
           {/* Profile Picture */}
@@ -173,8 +185,10 @@ function ProfileForm({ profile }) {
         </div>
 
         {/* Submit */}
-        {isLoading ? (
-          <Loader size="sm" text2="it may take time" />
+        {loading ? (
+          <div className="mt-5">
+            <Loader size="md" text2="it may take time" />
+          </div>
         ) : (
           <button
             type="submit"

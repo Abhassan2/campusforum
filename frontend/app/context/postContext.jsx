@@ -63,7 +63,7 @@ const PostContextProvider = ({ children }) => {
         },
       });
       const { signature, timestamp } = sigRes.data;
-
+      
       const formData = new FormData();
       formData.append("file", file);
       formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);

@@ -17,6 +17,7 @@ export const AuthContextProvider = ({ children }) => {
   });
   const [currentUser, setCurrentUser] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const pathname = usePathname();
 
   const fetchMe = async () => {
@@ -53,39 +54,47 @@ export const AuthContextProvider = ({ children }) => {
         setToken(response.data.token);
         router.push("/home");
         toast.success("Login successful!");
-      } else {
-        console.error(response.data.message);
-        toast.error("Token not generated! Please try again");
       }
+
     } catch (error) {
-      console.error("Login failed:", error.response?.data || error.message);
+      if (axios.isAxiosError(error)) {
+        setError(error?.response?.data?.message);
+      } else {
+        console.error("Unexpected error:", error);
+        setError("Something went wrong");
+      }
     } finally {
       setIsLoading(false);
     }
   };
-
+  
   const handleRegister = async (formData) => {
     try {
       setIsLoading(true);
       const res = await axios.post("/api/auth/register", formData, {
         withCredentials: true,
       });
-
+      
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         setToken(res.data.token);
         toast.success("Signup successful!");
         router.push("/home");
-      } else {
-        toast.error("Please try again later");
       }
     } catch (error) {
-      console.log("error message:  ", error.message);
+      if (axios.isAxiosError(error)) {
+        setError(
+          error.response?.data?.message || "Registration failed"
+        );
+      } else {
+        console.error("Unexpected error:", error);
+        setError("Something went wrong");
+      }
     } finally {
       setIsLoading(false);
     }
   };
-
+  
   const handleLogout = async () => {
     try {
       const response = await axios.post("/api/auth/logout");
@@ -136,6 +145,8 @@ export const AuthContextProvider = ({ children }) => {
     currentUser,
     isLoading,
     setIsLoading,
+    error,
+    setError,
   };
 
   return (

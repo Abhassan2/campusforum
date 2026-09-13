@@ -29,7 +29,7 @@ export const getProfile = async (req, res) => {
 export const editProfile = async (req, res) => {
   try {
     const { id } = req.user;
-    const { bio, name, username, gender, dateOfBirth } = req.body;
+    const { bio, name, username, gender, dateOfBirth, file_url, profilePic } = req.body;
 
     const user = await userModel.findById(id);
     if (!user) {
@@ -73,7 +73,9 @@ export const editProfile = async (req, res) => {
       updatedProfile.dateOfBirth = dateOfBirth;
     }
 
-    if (req.file && req.file.path) updatedProfile.profilePic = req.file.path;
+    if (file_url) updatedProfile.profilePic = file_url;
+    if (typeof profilePic === "string") updatedProfile.profilePic = profilePic;
+
     user.profile = updatedProfile._id
     await user.save();
     await updatedProfile.save();

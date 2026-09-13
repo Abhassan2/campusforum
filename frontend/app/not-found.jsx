@@ -16,14 +16,14 @@ export default function NotFoundPage() {
         <p className="text-base sm:text-lg text-slate-600 mb-8">
           Oops! The page you are looking for doesn&apos;t exist or has been moved.
         </p>
-        <Link
+        {/* <Link
           href=""
           className="inline-flex items-center justify-center gap-2 text-sm hover:underline"
           onClick={()=> router.back()}
         >
           <AiOutlineArrowLeft className="text-xl" />
-          Back to Home
-        </Link>
+          go to back
+        </Link> */}
       </div>
     </main>
   );

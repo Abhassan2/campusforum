@@ -19,7 +19,7 @@ export const register = async (req, res) => {
 
     const isExistUser = await userModel.findOne({ email });
     if (isExistUser) {
-      return res.json({ success: true, message: "User already exists" });
+      return res.status(404).json({ success: false, message: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -40,7 +40,7 @@ export const register = async (req, res) => {
     return res.json({success: true, token });
 
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return res.status(500).json({ message: error.message });
   }
 };
@@ -59,14 +59,14 @@ export const login = async (req, res) => {
     const isUserExist = await userModel.findOne({ email });
     if (!isUserExist) {
       return res
-        .status(400)
-        .json({ success: false, message: "User does not exist" });
+        .status(404)
+        .json({ success: false, message: 'Invalid email' });
     }
 
     const isMatch = await bcrypt.compare(password, isUserExist.password);
     if (!isMatch) {
       return res
-        .status(400)
+        .status(404)
         .json({ success: false, message: "Invalid Password" });
     }
 

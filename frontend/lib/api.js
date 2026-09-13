@@ -30,10 +30,37 @@ export const getProfile = async (token) => {
 };
 
 export const editProfile = async (token, formData) => {
-  try {
-    const response = await clientServer.put(
-      "/api/user/profile/edit",
-      formData,
+  try {    
+    const jsonData = Object.fromEntries(formData.entries());
+
+    if(jsonData.profilePic instanceof File){
+      const sigRes = await clientServer.get("/api/user/get-signature", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { signature, timestamp } = sigRes.data;
+
+      // save config in form with payload
+      const configForm = new FormData();
+      configForm.append("file", jsonData.profilePic);
+      configForm.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
+      configForm.append("timestamp", timestamp);
+      configForm.append("signature", signature);
+      configForm.append("folder", "campusHub");
+      console.log("in config file",configForm.get("file"));
+      
+      const uploadRes = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/auto/upload`,
+        { method: "POST", body: configForm },
+      );
+      const cloudRes = await uploadRes.json();
+      jsonData["file_url"] = cloudRes.secure_url;
+    }
+    
+    // save url in mongodb
+    const response = await clientServer.put("/api/user/profile/edit",
+      jsonData,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -41,8 +68,14 @@ export const editProfile = async (token, formData) => {
       },
     );
 
+    return response.data;
+
   } catch (error) {
-    console.log(error.response?.data);
+    if (axios.isAxiosError(error)) {
+      return error?.response?.data;
+    }
+    console.error("Unexpected error:", error.message);
+    return {message: error.message };
   }
 };
 

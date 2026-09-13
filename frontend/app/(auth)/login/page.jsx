@@ -4,7 +4,8 @@ import { Mail, Lock, User, ArrowRight } from "lucide-react";
 import { useAuthContext } from "@/app/context/authContext.jsx";
 
 export default function GlassAuthForm() {
-  const { handleRegister, handleLogin, isLoading } = useAuthContext();
+  const { handleRegister, handleLogin, isLoading, error, setError } =
+    useAuthContext();
   const [mode, setMode] = useState("signin");
   const [agree, setAgree] = useState(true);
 
@@ -23,43 +24,52 @@ export default function GlassAuthForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(isSignIn){
+    if (isSignIn) {
       await handleLogin(form);
-    }else{
+    } else {
       await handleRegister(form);
     }
-    setForm({
-      name: "",
-      username: "",
-      email: "",
-      password: "",
-    });
-  };
-  
-  return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-slate-950 flex items-center justify-center p-6">
 
+  };
+
+  return (
+    <div style={{
+          backgroundImage: "url('/bg_campus_img.jpg')",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        className="relative min-h-screen w-full overflow-hidden bg-slate-950 flex items-center justify-center p-6">
       {/* Card */}
       <div className="relative z-10 w-full max-w-sm rounded-3xl border border-white/15 bg-white/10 p-8 shadow-[0_8px_32px_rgba(0,0,0,0.37)] backdrop-blur-2xl">
-        <div className="mb-6">
+        <div className="">
           <div className="flex gap-4">
             <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br from-indigo-500 to-orange-400 shadow-lg shadow-indigo-500/20">
               <img src="/campus.png" alt="logo" />
             </div>
-            <h1 className="text-2xl font-medium text-white">
+            <h1 className="text-2xl font-medium">
               {isSignIn ? "Welcome back" : "Create your account"}
-              <p className="text-sm">on campus <b className="text-orange-400">forum</b></p>
+              <p className="text-sm font-bold">
+                on campus<b className="text-orange-400">forum</b>
+              </p>
             </h1>
           </div>
         </div>
 
+        {/* show error message */}
+        <span className="text-red-800">
+          {error}
+        </span>
+
         {/* Mode toggle */}
-        <div className="mb-6 grid grid-cols-2 rounded-xl border border-white/15 bg-white/5 p-1 text-sm">
+        <div className="my-6 grid grid-cols-2 rounded-xl border border-white/15 bg-white/5 p-1 text-sm">
           <button
             type="button"
             onClick={() => setMode("signin")}
             className={`rounded-lg py-1.5 font-medium transition ${
-              isSignIn ? "bg-white/15 text-white" : "text-slate-300 hover:text-white"
+              isSignIn
+                ? "bg-white/15"
+                : "text-white hover:text-slate-300"
             }`}
           >
             Sign in
@@ -68,7 +78,9 @@ export default function GlassAuthForm() {
             type="button"
             onClick={() => setMode("signup")}
             className={`rounded-lg py-1.5 font-medium transition ${
-              !isSignIn ? "bg-white/15 text-white" : "text-slate-300 hover:text-white"
+              !isSignIn
+                ? "bg-white/15"
+                : "text-white hover:text-slate-300"
             }`}
           >
             Sign up
@@ -79,11 +91,14 @@ export default function GlassAuthForm() {
           {!isSignIn && (
             <>
               <div>
-                <label htmlFor="name" className="mb-1.5 block text-xs text-slate-300">
+                <label
+                  htmlFor="name"
+                  className="mb-1.5 block text-xs"
+                >
                   Name
                 </label>
                 <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 transition focus-within:border-indigo-300/60 focus-within:bg-white/10">
-                  <User className="h-4 w-4 shrink-0 text-slate-300" />
+                  <User className="h-4 w-4 shrink-0" />
                   <input
                     id="name"
                     type="text"
@@ -91,16 +106,19 @@ export default function GlassAuthForm() {
                     value={form.name}
                     onChange={update("name")}
                     placeholder="Enter name"
-                    className="w-full bg-transparent text-sm text-white placeholder-slate-400 outline-none"
+                    className="w-full bg-transparent text-sm outline-none"
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="name" className="mb-1.5 block text-xs text-slate-300">
+                <label
+                  htmlFor="name"
+                  className="mb-1.5 block text-xs"
+                >
                   Username
                 </label>
                 <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 transition focus-within:border-indigo-300/60 focus-within:bg-white/10">
-                  <User className="h-4 w-4 shrink-0 text-slate-300" />
+                  <User className="h-4 w-4 shrink-0" />
                   <input
                     id="username"
                     type="text"
@@ -108,7 +126,7 @@ export default function GlassAuthForm() {
                     value={form.username}
                     onChange={update("username")}
                     placeholder="Enter username"
-                    className="w-full bg-transparent text-sm text-white placeholder-slate-400 outline-none"
+                    className="w-full bg-transparent text-sm outline-none"
                   />
                 </div>
               </div>
@@ -116,11 +134,14 @@ export default function GlassAuthForm() {
           )}
 
           <div>
-            <label htmlFor="email" className="mb-1.5 block text-xs text-slate-300">
+            <label
+              htmlFor="email"
+              className="mb-1.5 block text-xs"
+            >
               Email
             </label>
             <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 transition focus-within:border-indigo-300/60 focus-within:bg-white/10">
-              <Mail className="h-4 w-4 shrink-0 text-slate-300" />
+              <Mail className="h-4 w-4 shrink-0" />
               <input
                 id="email"
                 type="email"
@@ -128,39 +149,47 @@ export default function GlassAuthForm() {
                 value={form.email}
                 onChange={update("email")}
                 placeholder="Enter email"
-                className="w-full bg-transparent text-sm text-white placeholder-slate-400 outline-none"
+                className="w-full bg-transparent text-sm outline-none"
               />
             </div>
           </div>
 
           <div>
             <div className="mb-1.5 flex items-center justify-between">
-              <label htmlFor="password" className="block text-xs text-slate-300">
+              <label
+                htmlFor="password"
+                className="block text-xs"
+              >
                 Password
               </label>
             </div>
             <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 transition focus-within:border-indigo-300/60 focus-within:bg-white/10">
-              <Lock className="h-4 w-4 shrink-0 text-slate-300" />
+              <Lock className="h-4 w-4 shrink-0" />
               <input
                 id="password"
                 type="password"
                 required
                 value={form.password}
                 onChange={update("password")}
-                placeholder={isSignIn ? "Enter your password" : "Create a password"}
-                className="w-full bg-transparent text-sm text-white placeholder-slate-400 outline-none"
+                placeholder={
+                  isSignIn ? "Enter your password" : "Create a password"
+                }
+                className="w-full bg-transparent text-sm outline-none"
               />
             </div>
           </div>
 
           {isSignIn ? (
-            <label className="flex select-none items-center gap-2 pt-1 text-xs text-slate-300">
-              <a href="#" className="text-xs text-indigo-200 hover:text-indigo-100">
+            <label className="flex select-none items-center gap-2 pt-1 text-xs">
+              <a
+                href="#"
+                className="text-xs hover:text-white"
+              >
                 Forgot Password?
               </a>
             </label>
           ) : (
-            <label className="flex select-none items-start gap-2 pt-1 text-xs text-slate-300">
+            <label className="flex select-none items-start gap-2 pt-1 text-xs">
               <input
                 type="checkbox"
                 required
@@ -176,7 +205,13 @@ export default function GlassAuthForm() {
             type="submit"
             className={`group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-indigo-500 to-orange-400 py-2.5 text-sm font-medium text-white transition hover:brightness-110 active:brightness-95 ${isLoading && "animate-pulse bg-gray-400"}`}
           >
-            {isLoading ? (isSignIn ? "Signed in" : "Account created") : isSignIn ? "Sign in" : "Create account"}
+            {isLoading
+              ? isSignIn
+                ? "Signed in"
+                : "Account created"
+              : isSignIn
+                ? "Sign in"
+                : "Create account"}
             {!isLoading && (
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             )}

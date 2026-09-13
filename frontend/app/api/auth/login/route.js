@@ -1,4 +1,5 @@
 import clientServer from "@/app/config/clientServer";
+import axios from "axios";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -22,7 +23,18 @@ export async function POST(req) {
     });
 
     return NextResponse.json(data);
-  } catch {
-    return NextResponse.json({ message: "Login failed" }, { status: 500 });
+    
+  } catch(error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return NextResponse.json(
+        { message: error.response.data.message},
+        { status: error.response.status }
+      );
+    }
+
+    return NextResponse.json(
+      { message: 'Unable to reach server' },
+      { status: 500 }
+    );
   }
 }

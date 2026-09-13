@@ -46,11 +46,7 @@ function ProfileUi({ userProfile, userPosts }) {
       <div className="flex flex-col gap-2 border-b border-neutral-300">
         <div className="flex-1 flex mt-2 px-1 gap-4 md:gap-5">
           <Image
-            src={
-              userProfile?.profilePic
-                ? userProfile?.profilePic
-                : "/default_img.avif"
-            }
+            src={userProfile?.profilePic}
             loading="eager"
             width={50}
             height={50}
