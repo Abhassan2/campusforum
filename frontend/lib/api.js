@@ -1,4 +1,5 @@
 import clientServer from "@/app/config/clientServer";
+import axios from "axios";
 
 export const fetchMe = async (token) => {
   try {
@@ -32,7 +33,8 @@ export const getProfile = async (token) => {
 export const editProfile = async (token, formData) => {
   try {    
     const jsonData = Object.fromEntries(formData.entries());
-
+    console.log(jsonData);
+    
     if(jsonData.profilePic instanceof File){
       const sigRes = await clientServer.get("/api/user/get-signature", {
         headers: {

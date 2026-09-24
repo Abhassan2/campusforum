@@ -10,8 +10,8 @@ export default async function Loading() {
         aria-busy="true"
       >
         <Image
-          src="/logo.png"
-          alt="Campusforum"
+          src="/campus.png"
+          alt="logo"
           width={100}
           height={100}
           className="loading-logo mx-auto h-auto w-20 object-contain sm:w-24 md:w-32"

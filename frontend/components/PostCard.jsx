@@ -6,6 +6,7 @@ const ToggleReadBtn = dynamic(() => import("./toggleReadBtn"));
 import { memo, useEffect, useRef, useState } from "react";
 import usePostContext from "@/app/context/postContext";
 import { VolumeX, Volume2 } from "lucide-react";
+import CommentUi from "@/ui/Comment";
 
 function PostCard({ post }) {
   const { expanded, setExpanded, } = usePostContext();

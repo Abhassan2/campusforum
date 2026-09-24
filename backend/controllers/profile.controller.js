@@ -67,7 +67,7 @@ export const editProfile = async (req, res) => {
       updatedProfile.gender = gender;
     }
 
-    if (dateOfBirth === "") {
+    if (!dateOfBirth || dateOfBirth === "undefined" || dateOfBirth === "") {
       updatedProfile.dateOfBirth = updatedProfile.dateOfBirth;
     } else {
       updatedProfile.dateOfBirth = dateOfBirth;

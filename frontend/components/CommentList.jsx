@@ -47,45 +47,40 @@ export default function CommentList() {
     <div
       className={`w-full fixed bottom-0 right-0 bg-white shadow-lg transform transition-transform duration-300 ${
         openCommentBox ? "translate-y-0 md:w-100" : "translate-y-full"
-      } h-screen overflow-y-scroll`}
+      } h-[70vh] md:h-screen rounded-tl-xl rounded-tr-xl md:rounded-tr-0 overflow-y-auto overscroll-contain z-2000`}
     >
       <div className="grid">
-        <header className="sm:hidden flex items-center justify-between px-3 py-2 mb-7">
-          <div className="flex gap-3 items-center">
-            <Landmark className="size-8 text-blue-700" />
-            <h1 className="text-[16px] font-semibold">Campusforum</h1>
+        <div className="sticky top-0 bg-white">
+          <div className="flex items-center mx-3 mt-4">
+            <span
+              onClick={() => {
+                setOpenCommentBox(false);
+                setPostId(null);
+              }}
+              className="border text-[14px] cursor-pointer border-black/20 rounded-sm p-1 bg-gray-100 active:bg-gray-200"
+            >Back</span>
+            <h2 className="mx-25 font-bold">Comments</h2>
           </div>
-        </header>
 
-        <div className="flex items-center mx-3 mt-4">
-          <span
-            onClick={() => {
-              setOpenCommentBox(false);
-              setPostId(null);
-            }}
-            className="border text-[14px] cursor-pointer border-black/20 rounded-sm p-1 bg-gray-100 active:bg-gray-200"
-          >Back</span>
-          <h2 className="mx-25 font-bold">Comments</h2>
-        </div>
-
-        <div className=" flex border-b border-neutral-300 justify-center items-center gap-2 py-5 px-2">
-          <input
-            type="text"
-            placeholder="Write a comment..."
-            name="search"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            className="flex-1 border border-neutral-300 rounded-lg max-w-150
-                      bg-gray-100 placeholder:text-[14px] pl-3 py-2 focus:outline-1 outline-blue-600"
-          />
-          {isdoingComment ? (
-            <Loader size="sm" />
-          ) : (
-            <SendHorizontal
-              onClick={() => handleComment(postId)}
-              className="size-10 bg-gray-800 rounded-full text-white p-1"
+          <div className=" flex border-b border-neutral-300 justify-center items-center gap-2 py-5 px-2">
+            <input
+              type="text"
+              placeholder="Write a comment..."
+              name="search"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              className="flex-1 border border-neutral-300 rounded-lg max-w-150
+                        bg-gray-100 placeholder:text-[14px] pl-3 py-2 focus:outline-1 outline-blue-600"
             />
-          )}
+            {isdoingComment ? (
+              <Loader size="sm" />
+            ) : (
+              <SendHorizontal
+                onClick={() => handleComment(postId)}
+                className="size-10 bg-gray-800 rounded-full text-white p-1"
+              />
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col">
