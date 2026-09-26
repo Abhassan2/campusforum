@@ -34,7 +34,7 @@ export default function GlassAuthForm() {
 
   return (
     <div style={{
-          backgroundImage: "url('/bg_campus_img.jpg')",
+          backgroundImage: "url('/campus-bg.jpg')",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
